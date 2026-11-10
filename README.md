@@ -1,3 +1,10 @@
+# Experimental session-mode package
+
+The selected `pstack-mode` plugin is built under `plugins/pstack-mode/`. Its
+[package guide](docs/pstack-mode.md) describes local activation, shared routing,
+and the original comment-removal policy. The root plugin and skill tree below
+are upstream build inputs, not the selected session-mode package.
+
 <!-- mirror:start — this top section is specific to the mirror. Everything after mirror:end is the upstream README from cursor/plugins/pstack, unchanged. To sync with upstream, follow MIRROR.md. -->
 <h1 align="center">pstack — standalone mirror</h1>
 

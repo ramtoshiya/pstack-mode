@@ -1,0 +1,572 @@
+{
+  "bundled_references": {
+    "skills/principle-explain-the-number/references/benchmark-checklist.md": "skills/benchmark-checklist/SKILL.md"
+  },
+  "canonical_cursor": {
+    "commit": "de8ee15dd1194627d21eb5fcd41cb1873208dabb",
+    "repository": "https://github.com/cursor/plugins"
+  },
+  "mode_sources": {
+    "HOSTS.md": "mode/HOSTS.md",
+    "hooks/hooks.json": "mode/hooks/hooks.json",
+    "hooks/session-start.py": "mode/hooks/session-start.py",
+    "mode.md": "mode/mode.md"
+  },
+  "outputs": {
+    ".claude-plugin/plugin.json": {
+      "executable": false,
+      "sha256": "1df5040f1ae12da498082612bcf2aed529aa4b72703bdd0fc1e37dba7b976d87"
+    },
+    ".codex-plugin/plugin.json": {
+      "executable": false,
+      "sha256": "6d66b3591fc2c92ee1b487ef3dbb7f1ca9c56b9341bd8064c1597a9bb6a3a05d"
+    },
+    "HOSTS.md": {
+      "executable": false,
+      "sha256": "851cccf540ece269da18f6792679e5b1dcd04b4a0d8e97d7ece05c20c8d14960"
+    },
+    "LICENSE": {
+      "executable": false,
+      "sha256": "bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e"
+    },
+    "agents/comment-sicko.md": {
+      "executable": false,
+      "sha256": "3e239e40b7b4b9beb2cf7f3ccc57f2388eb8b69bd1ba8ae888ef87ef6e0e2116"
+    },
+    "hooks/hooks.json": {
+      "executable": false,
+      "sha256": "faed281325210ab5bd66e7f8c3b59f66b93651c33230cbcb09e6357998d10ad3"
+    },
+    "hooks/session-start.py": {
+      "executable": false,
+      "sha256": "185e40cce4111336a260e5d4375608eabcbc629211adfb76613705c0c37915ee"
+    },
+    "mode.md": {
+      "executable": false,
+      "sha256": "4d36832c21291565a6eae913eff374e4391f295eeef991437bc07c056c8f4311"
+    },
+    "plugin.json": {
+      "executable": false,
+      "sha256": "7158498e5a349c8b4a54d32c1f33a73b81cba6c5c5b53106c26621810df08e5a"
+    },
+    "skills/architect/SKILL.md": {
+      "executable": false,
+      "sha256": "73733a84baf04bd86dc9892068356a240a200819dcad745e7d740e3421d86d18"
+    },
+    "skills/architect/references/design-red-flags.md": {
+      "executable": false,
+      "sha256": "d0e639e4cc588ec865f930d3a4111faad60987ae36925917e319d7ceca7c69ce"
+    },
+    "skills/architect/references/rationale-template.md": {
+      "executable": false,
+      "sha256": "0cedfccdc7b47fc881febd5a8293eecbc542c20f8df825639904a8102d2eb5d3"
+    },
+    "skills/architect/references/runner-prompt.md": {
+      "executable": false,
+      "sha256": "a5fb862236d2bf56f46876600facdd019ed0ddeae565c129d3a3d2d37f13f1e2"
+    },
+    "skills/arena/SKILL.md": {
+      "executable": false,
+      "sha256": "8b1aefa094d1d8572e3f42168f1a3ce2fa7b98c7a4fd3a1b07ff5fe3f75eedd2"
+    },
+    "skills/how/SKILL.md": {
+      "executable": false,
+      "sha256": "db5a35ca3d10a22476a61f3548a763a3befc895bcc7d9a6fae373577d187689a"
+    },
+    "skills/how/references/explainer-prompt.md": {
+      "executable": false,
+      "sha256": "ddb89cebefc24e2b54517a331aedfe045b6971e101f45c71b8cef4cccff45bff"
+    },
+    "skills/how/references/explorer-prompt.md": {
+      "executable": false,
+      "sha256": "6300128385ee940fd42ecb84b0e623435440a2dc283eae54ee4a52ba56947ba1"
+    },
+    "skills/in-your-own-words/SKILL.md": {
+      "executable": false,
+      "sha256": "fa8ba74e27d7be371dc270ec78bbf816411477d0dfab185356c861ac8dd413ad"
+    },
+    "skills/interrogate/SKILL.md": {
+      "executable": false,
+      "sha256": "1a747da77b3cd63e480e481d99cd0902f1a6d82f64cd0eff1a5b02549c80654a"
+    },
+    "skills/no-comments/SKILL.md": {
+      "executable": false,
+      "sha256": "4139370511349f01f903ea38ca76a646a1c3422434f8316926984526a4539498"
+    },
+    "skills/no-comments/references/comment-sicko.md": {
+      "executable": false,
+      "sha256": "3e239e40b7b4b9beb2cf7f3ccc57f2388eb8b69bd1ba8ae888ef87ef6e0e2116"
+    },
+    "skills/principle-attack-the-premise/SKILL.md": {
+      "executable": false,
+      "sha256": "6a932884daad4aa189e9b5d1665226bbc75621d4d2a398fd4003bebd382f4599"
+    },
+    "skills/principle-boundary-discipline/SKILL.md": {
+      "executable": false,
+      "sha256": "62ac2862c2caa22dd14531f51c9c6bb445ceb198ca98a687e25b4d47c1f10a28"
+    },
+    "skills/principle-build-the-lever/SKILL.md": {
+      "executable": false,
+      "sha256": "3434b0ad0c640c6f1d7960be7a8986c3bcdc14e26060360dec29903df60074ff"
+    },
+    "skills/principle-encode-lessons-in-structure/SKILL.md": {
+      "executable": false,
+      "sha256": "228963799189f481827d6f28065f278bc2008ffa37030b1234cbd5814d36b9e9"
+    },
+    "skills/principle-exhaust-the-design-space/SKILL.md": {
+      "executable": false,
+      "sha256": "2de83d99f93f60ec6313455b0bc9aa9f0bfb93dd59f414f403691322db00d4db"
+    },
+    "skills/principle-experience-first/SKILL.md": {
+      "executable": false,
+      "sha256": "58903529d733b1c1a7c9ccf127d45ef3c7d0d9f0b81164a4dc6b80efe6f2912b"
+    },
+    "skills/principle-explain-the-number/SKILL.md": {
+      "executable": false,
+      "sha256": "970070a70e57f3375593abf45cfbc081b443e31961a238f5226b175bd730f658"
+    },
+    "skills/principle-explain-the-number/references/benchmark-checklist.md": {
+      "executable": false,
+      "sha256": "ba109e96c8f6c1c391baccf19e5d11e14370df7b3f2605e1572cd565a6c0fca0"
+    },
+    "skills/principle-fix-root-causes/SKILL.md": {
+      "executable": false,
+      "sha256": "8df3c8c3fe57eb0055a5c8efab8ab144557fdf301da70b1cdc77a3a3ef3f3052"
+    },
+    "skills/principle-foundational-thinking/SKILL.md": {
+      "executable": false,
+      "sha256": "864b827e8199d946ce58beca0f89c4ed4099ed6e426fb698a3aaa45de2a9eea2"
+    },
+    "skills/principle-guard-the-context-window/SKILL.md": {
+      "executable": false,
+      "sha256": "af0b9dd70b43628ce4a59a4d332e9d9ad055084e460f430e7a757495c627e81a"
+    },
+    "skills/principle-laziness-protocol/SKILL.md": {
+      "executable": false,
+      "sha256": "1be6e7a435f26a75a76eb848b9c3d611b9977d0f5822361753244da25ca3ca45"
+    },
+    "skills/principle-make-operations-idempotent/SKILL.md": {
+      "executable": false,
+      "sha256": "7aa9327cf1f1aa057e95d47a0a78bd88a8f9d556b608866fee939d455a53a019"
+    },
+    "skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md": {
+      "executable": false,
+      "sha256": "580ad9bb1a0994ecb924321ba49efc38a2f85c64e22c76fb133f57a78272a2e6"
+    },
+    "skills/principle-minimize-reader-load/SKILL.md": {
+      "executable": false,
+      "sha256": "1ea2b7fef2391cae5844c4efdbd59031f775e8a52d06b7495d707229a200dcca"
+    },
+    "skills/principle-model-the-domain/SKILL.md": {
+      "executable": false,
+      "sha256": "52c0d85e0c3827c41c18299b642657d7b47eaf77b7b31609e42e0df42b84c75f"
+    },
+    "skills/principle-never-block-on-the-human/SKILL.md": {
+      "executable": false,
+      "sha256": "05030a7a083c337676f793881b4e93cd218e8f1dd676529f56e6ac1d3efb8d1f"
+    },
+    "skills/principle-outcome-oriented-execution/SKILL.md": {
+      "executable": false,
+      "sha256": "10eb91633aa570355ba4bb37088fcade2b22e498df7a58edc749e65bc5a78e2d"
+    },
+    "skills/principle-prove-it-works/SKILL.md": {
+      "executable": false,
+      "sha256": "ec79a15025bac8d33d62011c54f3b612733fd2a024e623b531b3637aa75070e2"
+    },
+    "skills/principle-redesign-from-first-principles/SKILL.md": {
+      "executable": false,
+      "sha256": "170e0a658783e43fee8ec5a8c2422a4abb8f69cef621dd1819a95910b8207034"
+    },
+    "skills/principle-separate-before-serializing-shared-state/SKILL.md": {
+      "executable": false,
+      "sha256": "05294b40448e927c5da1c7b6f5c6b9fed3744637e3833d2d948b9154a9dd00bb"
+    },
+    "skills/principle-sequence-verifiable-units/SKILL.md": {
+      "executable": false,
+      "sha256": "2ccbbacc56ace5afdfb8670cef19d7bd009fb2a0033b9a741cbdf2b6baf72187"
+    },
+    "skills/principle-subtract-before-you-add/SKILL.md": {
+      "executable": false,
+      "sha256": "8c93bb9d1a7f38e2ef37655d93f0e790fa59903105af3d500cc8a663ebe45f3f"
+    },
+    "skills/principle-test-behavior-not-implementation/SKILL.md": {
+      "executable": false,
+      "sha256": "f7223698623b6a26fea49c751e466b38e6691b1f32ce841d3983e7ffbe2b74a6"
+    },
+    "skills/principle-type-system-discipline/SKILL.md": {
+      "executable": false,
+      "sha256": "5cdaf79785e3c12b2592b9469ee8c272143eb86ab7a18d8382197cea5fd30106"
+    },
+    "skills/show-me-your-work/SKILL.md": {
+      "executable": false,
+      "sha256": "cf7aa53e7a1d4566be8670e767fc78fc87b07bc4da37cdf04277ad9e22e97425"
+    },
+    "skills/show-me-your-work/references/decision-log-template.tsv": {
+      "executable": false,
+      "sha256": "6779378006a2f5225e8c06deb84f1d913fb532041ebbb6e50d94600bfe3f4b76"
+    },
+    "skills/show-me-your-work/scripts/log.sh": {
+      "executable": true,
+      "sha256": "a65a4bc5fb7cdeadbdb7b7ff1ca4682f4d9c42420942b2977cd17b46c4ac338e"
+    },
+    "skills/technical-writing/SKILL.md": {
+      "executable": false,
+      "sha256": "61fe9c424a798ebf36ad94941f87be049cb8827bdf86d21474a0dde37b513c43"
+    },
+    "skills/unslop/SKILL.md": {
+      "executable": false,
+      "sha256": "ccab208e315ce05e2fab8eeee2f7879f1289b5c6844840b2d307adf31c79144f"
+    },
+    "skills/why/SKILL.md": {
+      "executable": false,
+      "sha256": "48c40825aeae8264eb3488fdfda713ff8122679df052baa6503d4f8f44ab40ef"
+    },
+    "skills/why/references/epistemics.md": {
+      "executable": false,
+      "sha256": "d54a2361b2d5973bc3fe2edf62f446d87935974d4b40d47f23b9529f956ca758"
+    },
+    "skills/why/references/investigator-prompt.md": {
+      "executable": false,
+      "sha256": "c44afba186f899094f3694e6c9d6de5d14ff7c4ce28b787a9f50fc789c9a7fc3"
+    },
+    "skills/why/references/source-playbook.md": {
+      "executable": false,
+      "sha256": "9ae9dcb9d09111c9facc68510331c5aba4aed9b1b057314ff1fc0e166ad3993a"
+    },
+    "skills/why/references/sources/code-archaeology.md": {
+      "executable": false,
+      "sha256": "a4a3970e9db448054aed676f3f7feeee667b4b69f0bd57c8fd72b751be687cc7"
+    },
+    "skills/why/references/sources/databricks.md": {
+      "executable": false,
+      "sha256": "236ede7aab6454662a992db088a5393537a5233a4c26719c93188f9e174488f6"
+    },
+    "skills/why/references/sources/datadog.md": {
+      "executable": false,
+      "sha256": "b139faac5dc11b8f26c8255dce6033c1a6ac143b038d3dd103f2034c5dbec9cd"
+    },
+    "skills/why/references/sources/incident-postmortem.md": {
+      "executable": false,
+      "sha256": "bf2661f1a81c37700884a45b77d6289be0c802b065febced31990e6564510839"
+    },
+    "skills/why/references/sources/linear.md": {
+      "executable": false,
+      "sha256": "01304e7f1badfcfb78babbb0edcadeb3cc8dd3f713793420cdff24ba190f907c"
+    },
+    "skills/why/references/sources/notion.md": {
+      "executable": false,
+      "sha256": "3bcfa695c49dfad4ac036d5d7181c12585f55ac04f1936198d16ab75a2788997"
+    },
+    "skills/why/references/sources/sentry.md": {
+      "executable": false,
+      "sha256": "2d4f83048eac1df530b399e2aed75dd7c9c18577b7665420aaeb96d0ceb0b702"
+    },
+    "skills/why/references/sources/slack.md": {
+      "executable": false,
+      "sha256": "3bc6309f5c7b26ace3b919dbd7f7b048861dd2020f910fe24f656cc74b3b661c"
+    },
+    "skills/why/references/synthesizer-prompt.md": {
+      "executable": false,
+      "sha256": "11c62671aa7b7a6e3d36929ffe2b59bf95e6ca664eee4d93e6ee527dd3390ddb"
+    }
+  },
+  "policy_overrides": {
+    "agents/comment-sicko.md": "patches/cursor-original/agents/comment-sicko.md",
+    "skills/no-comments/SKILL.md": "patches/cursor-original/skills/no-comments/SKILL.md",
+    "skills/no-comments/references/comment-sicko.md": "patches/cursor-original/agents/comment-sicko.md"
+  },
+  "selected_skills": [
+    "skills/architect",
+    "skills/arena",
+    "skills/how",
+    "skills/in-your-own-words",
+    "skills/interrogate",
+    "skills/no-comments",
+    "skills/principle-attack-the-premise",
+    "skills/principle-boundary-discipline",
+    "skills/principle-build-the-lever",
+    "skills/principle-encode-lessons-in-structure",
+    "skills/principle-exhaust-the-design-space",
+    "skills/principle-experience-first",
+    "skills/principle-explain-the-number",
+    "skills/principle-fix-root-causes",
+    "skills/principle-foundational-thinking",
+    "skills/principle-guard-the-context-window",
+    "skills/principle-laziness-protocol",
+    "skills/principle-make-operations-idempotent",
+    "skills/principle-migrate-callers-then-delete-legacy-apis",
+    "skills/principle-minimize-reader-load",
+    "skills/principle-model-the-domain",
+    "skills/principle-never-block-on-the-human",
+    "skills/principle-outcome-oriented-execution",
+    "skills/principle-prove-it-works",
+    "skills/principle-redesign-from-first-principles",
+    "skills/principle-separate-before-serializing-shared-state",
+    "skills/principle-sequence-verifiable-units",
+    "skills/principle-subtract-before-you-add",
+    "skills/principle-test-behavior-not-implementation",
+    "skills/principle-type-system-discipline",
+    "skills/show-me-your-work",
+    "skills/technical-writing",
+    "skills/unslop",
+    "skills/why"
+  ],
+  "sources": {
+    "LICENSE": {
+      "executable": false,
+      "sha256": "bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e"
+    },
+    "mode/HOSTS.md": {
+      "executable": false,
+      "sha256": "851cccf540ece269da18f6792679e5b1dcd04b4a0d8e97d7ece05c20c8d14960"
+    },
+    "mode/hooks/hooks.json": {
+      "executable": false,
+      "sha256": "faed281325210ab5bd66e7f8c3b59f66b93651c33230cbcb09e6357998d10ad3"
+    },
+    "mode/hooks/session-start.py": {
+      "executable": false,
+      "sha256": "185e40cce4111336a260e5d4375608eabcbc629211adfb76613705c0c37915ee"
+    },
+    "mode/mode.md": {
+      "executable": false,
+      "sha256": "4d36832c21291565a6eae913eff374e4391f295eeef991437bc07c056c8f4311"
+    },
+    "patches/cursor-original/agents/comment-sicko.md": {
+      "executable": false,
+      "sha256": "3e239e40b7b4b9beb2cf7f3ccc57f2388eb8b69bd1ba8ae888ef87ef6e0e2116"
+    },
+    "patches/cursor-original/skills/no-comments/SKILL.md": {
+      "executable": false,
+      "sha256": "078ecfe224eafbb017f6476870612838bf6dbe38c0b697e12f0c887d0313f17e"
+    },
+    "scripts/build-mode.py": {
+      "executable": false,
+      "sha256": "fc043a01c38cab5f1185bc7390075349c189f3b121df4f6564c622d7fe6f1092"
+    },
+    "skills/architect/SKILL.md": {
+      "executable": false,
+      "sha256": "8b06915a5e728c4f78b6a685fec0213b5cb1a89b9476fae680d4cc3f67d4e79e"
+    },
+    "skills/architect/references/design-red-flags.md": {
+      "executable": false,
+      "sha256": "d0e639e4cc588ec865f930d3a4111faad60987ae36925917e319d7ceca7c69ce"
+    },
+    "skills/architect/references/rationale-template.md": {
+      "executable": false,
+      "sha256": "0cedfccdc7b47fc881febd5a8293eecbc542c20f8df825639904a8102d2eb5d3"
+    },
+    "skills/architect/references/runner-prompt.md": {
+      "executable": false,
+      "sha256": "21dd5314aab778c5007228027a4591d97693fbec6ab86524037772b63f40948e"
+    },
+    "skills/arena/SKILL.md": {
+      "executable": false,
+      "sha256": "2d852994eaa2f0abe7a9de959b21f0d5a818cc8a000acc65350d7b8fae914992"
+    },
+    "skills/benchmark-checklist/SKILL.md": {
+      "executable": false,
+      "sha256": "ba109e96c8f6c1c391baccf19e5d11e14370df7b3f2605e1572cd565a6c0fca0"
+    },
+    "skills/how/SKILL.md": {
+      "executable": false,
+      "sha256": "a63ac90597960cfdc4d51ec88960b3bf0a05d44a7dff1d5a2b8639981c25ca54"
+    },
+    "skills/how/references/explainer-prompt.md": {
+      "executable": false,
+      "sha256": "ddb89cebefc24e2b54517a331aedfe045b6971e101f45c71b8cef4cccff45bff"
+    },
+    "skills/how/references/explorer-prompt.md": {
+      "executable": false,
+      "sha256": "6300128385ee940fd42ecb84b0e623435440a2dc283eae54ee4a52ba56947ba1"
+    },
+    "skills/in-your-own-words/SKILL.md": {
+      "executable": false,
+      "sha256": "fa8ba74e27d7be371dc270ec78bbf816411477d0dfab185356c861ac8dd413ad"
+    },
+    "skills/interrogate/SKILL.md": {
+      "executable": false,
+      "sha256": "ce9d4c1390657924f58daa8174abdc605d07cd134a736cd86e392a0309a405fb"
+    },
+    "skills/no-comments/SKILL.md": {
+      "executable": false,
+      "sha256": "a725059771d1577fc59fbd266e2f75fe7f547a23a3dcc1052459db54ae10c0c2"
+    },
+    "skills/no-comments/references/comment-sicko.md": {
+      "executable": false,
+      "sha256": "73c0bcb8c258981131c00f09c2c56e300c7225803bd4e1093ef41362e0073d98"
+    },
+    "skills/principle-attack-the-premise/SKILL.md": {
+      "executable": false,
+      "sha256": "6a932884daad4aa189e9b5d1665226bbc75621d4d2a398fd4003bebd382f4599"
+    },
+    "skills/principle-boundary-discipline/SKILL.md": {
+      "executable": false,
+      "sha256": "62ac2862c2caa22dd14531f51c9c6bb445ceb198ca98a687e25b4d47c1f10a28"
+    },
+    "skills/principle-build-the-lever/SKILL.md": {
+      "executable": false,
+      "sha256": "3434b0ad0c640c6f1d7960be7a8986c3bcdc14e26060360dec29903df60074ff"
+    },
+    "skills/principle-encode-lessons-in-structure/SKILL.md": {
+      "executable": false,
+      "sha256": "228963799189f481827d6f28065f278bc2008ffa37030b1234cbd5814d36b9e9"
+    },
+    "skills/principle-exhaust-the-design-space/SKILL.md": {
+      "executable": false,
+      "sha256": "2de83d99f93f60ec6313455b0bc9aa9f0bfb93dd59f414f403691322db00d4db"
+    },
+    "skills/principle-experience-first/SKILL.md": {
+      "executable": false,
+      "sha256": "58903529d733b1c1a7c9ccf127d45ef3c7d0d9f0b81164a4dc6b80efe6f2912b"
+    },
+    "skills/principle-explain-the-number/SKILL.md": {
+      "executable": false,
+      "sha256": "3c84fbf9a7d9842abcfcd134010782b32092ac3d3fb4aaf9ed5732dca83aa58c"
+    },
+    "skills/principle-fix-root-causes/SKILL.md": {
+      "executable": false,
+      "sha256": "8df3c8c3fe57eb0055a5c8efab8ab144557fdf301da70b1cdc77a3a3ef3f3052"
+    },
+    "skills/principle-foundational-thinking/SKILL.md": {
+      "executable": false,
+      "sha256": "864b827e8199d946ce58beca0f89c4ed4099ed6e426fb698a3aaa45de2a9eea2"
+    },
+    "skills/principle-guard-the-context-window/SKILL.md": {
+      "executable": false,
+      "sha256": "af0b9dd70b43628ce4a59a4d332e9d9ad055084e460f430e7a757495c627e81a"
+    },
+    "skills/principle-laziness-protocol/SKILL.md": {
+      "executable": false,
+      "sha256": "1be6e7a435f26a75a76eb848b9c3d611b9977d0f5822361753244da25ca3ca45"
+    },
+    "skills/principle-make-operations-idempotent/SKILL.md": {
+      "executable": false,
+      "sha256": "7aa9327cf1f1aa057e95d47a0a78bd88a8f9d556b608866fee939d455a53a019"
+    },
+    "skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md": {
+      "executable": false,
+      "sha256": "580ad9bb1a0994ecb924321ba49efc38a2f85c64e22c76fb133f57a78272a2e6"
+    },
+    "skills/principle-minimize-reader-load/SKILL.md": {
+      "executable": false,
+      "sha256": "1ea2b7fef2391cae5844c4efdbd59031f775e8a52d06b7495d707229a200dcca"
+    },
+    "skills/principle-model-the-domain/SKILL.md": {
+      "executable": false,
+      "sha256": "52c0d85e0c3827c41c18299b642657d7b47eaf77b7b31609e42e0df42b84c75f"
+    },
+    "skills/principle-never-block-on-the-human/SKILL.md": {
+      "executable": false,
+      "sha256": "05030a7a083c337676f793881b4e93cd218e8f1dd676529f56e6ac1d3efb8d1f"
+    },
+    "skills/principle-outcome-oriented-execution/SKILL.md": {
+      "executable": false,
+      "sha256": "10eb91633aa570355ba4bb37088fcade2b22e498df7a58edc749e65bc5a78e2d"
+    },
+    "skills/principle-prove-it-works/SKILL.md": {
+      "executable": false,
+      "sha256": "ec79a15025bac8d33d62011c54f3b612733fd2a024e623b531b3637aa75070e2"
+    },
+    "skills/principle-redesign-from-first-principles/SKILL.md": {
+      "executable": false,
+      "sha256": "170e0a658783e43fee8ec5a8c2422a4abb8f69cef621dd1819a95910b8207034"
+    },
+    "skills/principle-separate-before-serializing-shared-state/SKILL.md": {
+      "executable": false,
+      "sha256": "05294b40448e927c5da1c7b6f5c6b9fed3744637e3833d2d948b9154a9dd00bb"
+    },
+    "skills/principle-sequence-verifiable-units/SKILL.md": {
+      "executable": false,
+      "sha256": "2ccbbacc56ace5afdfb8670cef19d7bd009fb2a0033b9a741cbdf2b6baf72187"
+    },
+    "skills/principle-subtract-before-you-add/SKILL.md": {
+      "executable": false,
+      "sha256": "8c93bb9d1a7f38e2ef37655d93f0e790fa59903105af3d500cc8a663ebe45f3f"
+    },
+    "skills/principle-test-behavior-not-implementation/SKILL.md": {
+      "executable": false,
+      "sha256": "f7223698623b6a26fea49c751e466b38e6691b1f32ce841d3983e7ffbe2b74a6"
+    },
+    "skills/principle-type-system-discipline/SKILL.md": {
+      "executable": false,
+      "sha256": "5cdaf79785e3c12b2592b9469ee8c272143eb86ab7a18d8382197cea5fd30106"
+    },
+    "skills/show-me-your-work/SKILL.md": {
+      "executable": false,
+      "sha256": "63a79b3d849af1d3e0b76cf7c1dcba0a0d1ff2823edad60675d25623804d3058"
+    },
+    "skills/show-me-your-work/references/decision-log-template.tsv": {
+      "executable": false,
+      "sha256": "6779378006a2f5225e8c06deb84f1d913fb532041ebbb6e50d94600bfe3f4b76"
+    },
+    "skills/show-me-your-work/scripts/log.sh": {
+      "executable": true,
+      "sha256": "a65a4bc5fb7cdeadbdb7b7ff1ca4682f4d9c42420942b2977cd17b46c4ac338e"
+    },
+    "skills/technical-writing/SKILL.md": {
+      "executable": false,
+      "sha256": "61fe9c424a798ebf36ad94941f87be049cb8827bdf86d21474a0dde37b513c43"
+    },
+    "skills/unslop/SKILL.md": {
+      "executable": false,
+      "sha256": "ccab208e315ce05e2fab8eeee2f7879f1289b5c6844840b2d307adf31c79144f"
+    },
+    "skills/why/SKILL.md": {
+      "executable": false,
+      "sha256": "b12ea2757ff1d1d111c7b4e74e3e764d337c6a08458b8d6240d3f01c4be490ec"
+    },
+    "skills/why/references/epistemics.md": {
+      "executable": false,
+      "sha256": "d54a2361b2d5973bc3fe2edf62f446d87935974d4b40d47f23b9529f956ca758"
+    },
+    "skills/why/references/investigator-prompt.md": {
+      "executable": false,
+      "sha256": "c44afba186f899094f3694e6c9d6de5d14ff7c4ce28b787a9f50fc789c9a7fc3"
+    },
+    "skills/why/references/source-playbook.md": {
+      "executable": false,
+      "sha256": "9ae9dcb9d09111c9facc68510331c5aba4aed9b1b057314ff1fc0e166ad3993a"
+    },
+    "skills/why/references/sources/code-archaeology.md": {
+      "executable": false,
+      "sha256": "a4a3970e9db448054aed676f3f7feeee667b4b69f0bd57c8fd72b751be687cc7"
+    },
+    "skills/why/references/sources/databricks.md": {
+      "executable": false,
+      "sha256": "236ede7aab6454662a992db088a5393537a5233a4c26719c93188f9e174488f6"
+    },
+    "skills/why/references/sources/datadog.md": {
+      "executable": false,
+      "sha256": "b139faac5dc11b8f26c8255dce6033c1a6ac143b038d3dd103f2034c5dbec9cd"
+    },
+    "skills/why/references/sources/incident-postmortem.md": {
+      "executable": false,
+      "sha256": "bf2661f1a81c37700884a45b77d6289be0c802b065febced31990e6564510839"
+    },
+    "skills/why/references/sources/linear.md": {
+      "executable": false,
+      "sha256": "01304e7f1badfcfb78babbb0edcadeb3cc8dd3f713793420cdff24ba190f907c"
+    },
+    "skills/why/references/sources/notion.md": {
+      "executable": false,
+      "sha256": "3bcfa695c49dfad4ac036d5d7181c12585f55ac04f1936198d16ab75a2788997"
+    },
+    "skills/why/references/sources/sentry.md": {
+      "executable": false,
+      "sha256": "2d4f83048eac1df530b399e2aed75dd7c9c18577b7665420aaeb96d0ceb0b702"
+    },
+    "skills/why/references/sources/slack.md": {
+      "executable": false,
+      "sha256": "3bc6309f5c7b26ace3b919dbd7f7b048861dd2020f910fe24f656cc74b3b661c"
+    },
+    "skills/why/references/synthesizer-prompt.md": {
+      "executable": false,
+      "sha256": "11c62671aa7b7a6e3d36929ffe2b59bf95e6ca664eee4d93e6ee527dd3390ddb"
+    }
+  },
+  "upstream_mirror": {
+    "commit": "08547969e1dffaa6457ea65141cc62c1d9a2eef1",
+    "repository": "https://github.com/backnotprop/pstack"
+  }
+}

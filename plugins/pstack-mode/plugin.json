@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "author": {
+    "name": "Lauren Tan"
+  },
+  "description": "A session mode with workflow skills and principles from pstack.",
+  "license": "MIT",
+  "name": "pstack-mode",
+  "repository": "https://github.com/cursor/plugins"
+}
