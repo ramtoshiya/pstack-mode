@@ -23,7 +23,7 @@
     },
     "HOSTS.md": {
       "executable": false,
-      "sha256": "851cccf540ece269da18f6792679e5b1dcd04b4a0d8e97d7ece05c20c8d14960"
+      "sha256": "20bfe93f0039bb7ea6db6cad1f4fb6164a4999bcc5823b65840a9603ec0c73ac"
     },
     "LICENSE": {
       "executable": false,
@@ -318,7 +318,7 @@
     },
     "mode/HOSTS.md": {
       "executable": false,
-      "sha256": "851cccf540ece269da18f6792679e5b1dcd04b4a0d8e97d7ece05c20c8d14960"
+      "sha256": "20bfe93f0039bb7ea6db6cad1f4fb6164a4999bcc5823b65840a9603ec0c73ac"
     },
     "mode/hooks/hooks.json": {
       "executable": false,

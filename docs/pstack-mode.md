@@ -32,37 +32,52 @@ redesign code to remove the need for comments.
 controller and hook, and the generator for portable workflow substitutions.
 Do not edit generated files directly.
 
-## Local Claude Code session
+## Install for one repository
 
-Install the `pstack-session` command from the ramtoshiya skills repository's
-`tools/pstack-session/README.md`. The shared `ramtoshiya` plugin must provide
-`worker-routing`. From this checkout, start a fresh session:
+From the ramtoshiya skills checkout, run its repository installer once:
 
 ```sh
-pstack-session --plugin-dir "$PWD/plugins/pstack-mode" claude
+node tools/pstack-session/install-project.mjs /path/to/project /path/to/pstack-mode/plugins/pstack-mode
 ```
 
-Use `claudex` in place of `claude` for that launch path. The launcher disables
-humanize and humanize-korean in process settings, including their hooks, without
-changing persistent settings. It preserves other enabled plugins and settings.
-Global and repository writing instructions remain. Unslop and technical-writing
-replace only the two plugins' behavior in this experiment.
+Then start Claude Code or claudex normally in that project. No custom shell
+command, plugin flags, or additional-directory flags are needed on each launch.
+The registered command is `/pstack-mode:no-comments`.
 
-Existing sessions cannot unload already-injected instructions. A fresh process
-is required. The plugin alone cannot disable another plugin.
+The installer copies this generated package and the current shared `ramtoshiya`
+plugin into the project's ignored `.claude/pstack/` directory. It registers a
+private local marketplace through Claude's native CLI and saves enablement in
+`.claude/settings.local.json`. It disables both humanizer plugins and selects
+the shared snapshot for that repository only. Other plugins, settings, and global
+and repository instructions remain. The shared policy is an installed copy of
+the same source that lead uses, not a separate model table.
 
-## Installed sessions and Codex
+Run setup again to refresh the snapshots after source changes. There is no
+published marketplace pin for this candidate and none is needed for the local
+installation. The optional `pstack-session` launcher remains a process-only
+alternative, not a prerequisite for normal repository launches.
 
-An installed package can be launched with `pstack-session claude` or
-`pstack-session codex`. This checkout does not supply a published marketplace pin.
-Do not register an invented remote commit. Until there is a published package,
-use the local Claude Code path above.
+Start a fresh session after setup. Existing sessions cannot unload instructions
+they already received. Unslop and technical-writing replace only the two writing
+plugins' behavior, not global or repository instructions.
 
-Codex has no equivalent local `--plugin-dir` launch flag. Native installation and
-explicit hook trust in `/hooks` are required. The launcher does not install the
-package, grant trust, or restart a shared app-server. Disabling the humanizers
-uses unquoted Codex override paths, for example
-`-c plugins.humanize@ramtoshiya.enabled=false`.
+## Codex
+
+Codex does not read Claude's repository settings. For Codex workers, put these
+overrides in the project's `.codex/config.toml`, preserving existing settings:
+
+```toml
+[plugins."humanize@ramtoshiya"]
+enabled = false
+
+[plugins."humanize-korean@ramtoshiya"]
+enabled = false
+```
+
+Workers receive the mode and role paths in their briefs. Automatic mode activation
+for a Codex main session additionally requires native installation and explicit
+hook trust in `/hooks`. The Claude repository installer does not perform that
+installation or grant trust. Do not bypass trust or restart a shared app-server.
 
 ## Workers
 
@@ -71,17 +86,19 @@ model, effort, provider, quota, retry, and escalation. They do not activate lead
 shipping or review workflow. Arena retains independent candidates, base selection,
 grafting, verification, and cross-family judgment where another family can run.
 
-Native subagents inherit process plugin configuration. Separate T3 delegates
-need isolated provider instances with the humanizers disabled. Use
-`pstack-session --delegate claude`, `claudex`, or `codex` as their launch path.
-The delegate mode also disables pstack-mode and sets `AGENTMEMORY_SDK_CHILD=1`.
-Briefs provide the absolute mode and role paths.
+Native subagents inherit process plugin configuration. Separate Claude processes
+can read the same repository settings. Codex workers need the separate overrides
+above. A provider that already loads those settings needs no new instance or
+launcher. Briefs provide the absolute mode and role paths, and workers perform
+only their assigned roles.
 
-Bind the instance IDs with `PSTACK_CLAUDE_INSTANCE`, `PSTACK_CODEX_INSTANCE`, and
-`PSTACK_CLAUDEX_INSTANCE` in the experimental main's environment. The host adapter
-in `plugins/pstack-mode/HOSTS.md` describes selection and compaction behavior.
-Do not rename or alter normal providers. If isolated instances are not configured,
-the mode reports the missing binding rather than sending work to normal providers.
+Ignored settings and payloads do not necessarily reach a new isolated worktree.
+Different host profiles may also load different configuration. Configure that
+working directory before its session starts, or use an isolated provider with
+both humanizers disabled. Optional `PSTACK_CLAUDE_INSTANCE`,
+`PSTACK_CODEX_INSTANCE`, and `PSTACK_CLAUDEX_INSTANCE` bindings select those
+providers without changing the routing policy. The host adapter in
+`plugins/pstack-mode/HOSTS.md` describes selection and compaction behavior.
 
 ## Runtime checks
 
