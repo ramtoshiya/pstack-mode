@@ -8,7 +8,7 @@ The repository installer from the ramtoshiya skills checkout puts this package a
 
 Codex does not read `.claude/settings.local.json`. For Codex workers, disable both humanizers in the repository's `.codex/config.toml`. Their briefs supply the absolute mode and workflow paths. Starting a Codex main session with automatic mode activation additionally requires native plugin installation and explicit hook trust in `/hooks`. Do not bypass hook trust or restart a shared app-server to force activation.
 
-The optional `pstack-session` launcher supplies process-only overrides. Its `--delegate` path disables this plugin as well and supplies mode instructions through the worker brief. Command-line overrides do not transfer to a separate process.
+The optional `pstack-session` launcher supplies process-only overrides for `humanize@ramtoshiya`, `humanize-korean@ramtoshiya`, and `pstack-mode@ramtoshiya`. With `--delegate`, it disables those exact IDs and sets `AGENTMEMORY_SDK_CHILD=1`. Repository-specific plugin IDs remain governed by repository settings. The caller supplies mode and role instructions in the worker brief. Command-line overrides do not transfer to a separate process.
 
 ## Shared routing {:#routing}
 
