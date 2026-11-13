@@ -28,7 +28,7 @@ Skip Phase A only when the work is genuinely greenfield with no surrounding syst
 
 Run the **arena** skill with the design-sketch task and the Phase A grounding artifacts. Pass `references/runner-prompt.md` as each runner's prompt.
 
-Before selecting workers, read the shared `ramtoshiya:worker-routing` skill and follow it for model, effort, provider, quota, and retries. It does not activate lead mode. Read `HOSTS.md` at the plugin root for native tool names and experimental provider bindings. Select the design runners under that policy and pass the roles to arena.
+Before selecting workers, read the shared `ramtoshiya:worker-routing` skill and follow it for model, effort, provider, quota, and retries. It does not activate lead mode. Read `HOSTS.md` at the plugin root for native tool names and worker activation. Select the design runners under that policy and pass the roles to arena.
 
 Design it twice. Require at least two structurally distinct candidates before synthesis, even when the first looks sufficient. This is the **exhaust-the-design-space** principle skill made concrete. Whole-shape alternatives, not point fixes inside one shape.
 

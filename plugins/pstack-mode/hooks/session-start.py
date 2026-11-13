@@ -8,19 +8,10 @@ def main():
     event = json.load(sys.stdin)
     if not isinstance(event, dict):
         raise ValueError("hook input must be a JSON object")
-    if event.get("hook_event_name") != "SessionStart":
+    if event.get("hook_event_name") != "SessionStart" or os.environ.get("PSTACK_MODE") != "1":
         return
     root = Path(__file__).resolve().parent.parent
     context = (root / "mode.md").read_text().replace("{{PLUGIN_ROOT}}", str(root))
-    bindings = {
-        name: os.environ[name]
-        for name in (
-            "PSTACK_CLAUDE_INSTANCE", "PSTACK_CODEX_INSTANCE", "PSTACK_CLAUDEX_INSTANCE"
-        )
-        if os.environ.get(name)
-    }
-    if bindings:
-        context += "\nExperimental T3 provider bindings: " + json.dumps(bindings) + "\n"
     if len(context) > 10000:
         raise ValueError("mode context exceeds the host's 10000-character limit")
     print(json.dumps({"hookSpecificOutput": {

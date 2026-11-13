@@ -54,8 +54,24 @@ ROUTING = (
     "Before selecting workers, read the shared `ramtoshiya:worker-routing` skill "
     "and follow it for model, effort, provider, quota, and retries. It does not "
     "activate lead mode. Read `HOSTS.md` at the plugin root for native tool names "
-    "and experimental provider bindings."
+    "and worker activation."
 )
+
+
+MODE_SKILL = "skills/mode/SKILL.md"
+MODE_SKILL_HEADER = """---
+name: mode
+description: Start pstack session mode in this conversation, with its workflow triggers, principles, and worker rules.
+disable-model-invocation: true
+---
+
+"""
+
+
+def mode_skill(mode_text):
+    """Expose mode.md as an explicit command. The host expands the plugin root."""
+    text = mode_text.decode("utf-8").replace("{{PLUGIN_ROOT}}", "${CLAUDE_PLUGIN_ROOT}")
+    return (MODE_SKILL_HEADER + text).encode("utf-8")
 
 
 def digest(data):
@@ -236,6 +252,8 @@ def expected_package():
     mode_root = ROOT / "mode"
     if mode_root.is_symlink() or not mode_root.is_dir():
         raise ValueError("mode source is not a regular directory")
+    mode_text, _ = source_file("mode/mode.md", sources)
+    files[MODE_SKILL] = (mode_skill(mode_text), False)
     for path in sorted(mode_root.rglob("*")):
         if path.is_symlink():
             raise ValueError(f"symlinks are not supported: {path}")

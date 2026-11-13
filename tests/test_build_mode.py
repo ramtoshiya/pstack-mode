@@ -41,6 +41,8 @@ class BuildModeTests(unittest.TestCase):
 
     def test_selection_copies_complete_trees_and_records_sources(self):
         skill_dirs = {path.name for path in (self.output / "skills").iterdir()}
+        self.assertIn("mode", skill_dirs)
+        skill_dirs.remove("mode")
         principles = {path.name for path in (self.repo / "skills").glob("principle-*")}
         self.assertEqual(len(principles), 24)
         self.assertEqual(skill_dirs, WORKFLOWS | principles)
@@ -240,6 +242,22 @@ class BuildModeTests(unittest.TestCase):
         self.assertIn("mode source is not a regular directory", self.run_builder(success=False).stderr)
         relocated.rename(mode)
 
+
+    def test_mode_command_carries_current_mode_with_host_expanded_root(self):
+        skill = (self.output / "skills/mode/SKILL.md").read_text()
+        header, body = skill.split("---\n\n", 1)
+        self.assertIn("name: mode\n", header)
+        self.assertIn("disable-model-invocation: true\n", header)
+        mode = (self.repo / "mode/mode.md").read_text()
+        self.assertEqual(body, mode.replace("{{PLUGIN_ROOT}}", "${CLAUDE_PLUGIN_ROOT}"))
+        self.assertNotIn("{{PLUGIN_ROOT}}", body)
+        (self.repo / "mode/mode.md").write_text(mode + "Changed.\n")
+        self.assertIn("stale: skills/mode/SKILL.md", self.run_builder("--check", success=False).stderr)
+        (self.repo / "mode/mode.md").write_text(mode)
+        collision = self.repo / "mode/skills/mode/SKILL.md"
+        collision.parent.mkdir(parents=True)
+        collision.write_text("conflict")
+        self.assertIn("mode source conflicts with generated output", self.run_builder(success=False).stderr)
 
 if __name__ == "__main__":
     unittest.main()

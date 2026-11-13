@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Investigate the motivation and intent behind code. The companion `how` skill answers what the code does and how it works. `why` answers what forces led to its shape.
 
-Before selecting workers, read the shared `ramtoshiya:worker-routing` skill and follow it for model, effort, provider, quota, and retries. It does not activate lead mode. Read `HOSTS.md` at the plugin root for native tool names and experimental provider bindings.
+Before selecting workers, read the shared `ramtoshiya:worker-routing` skill and follow it for model, effort, provider, quota, and retries. It does not activate lead mode. Read `HOSTS.md` at the plugin root for native tool names and worker activation.
 
 Give investigators and the synthesizer MCP access. Do not use a host mode that strips MCP access. Investigators and the synthesizer must not write files or modify external state.
 

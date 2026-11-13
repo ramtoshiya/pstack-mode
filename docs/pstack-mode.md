@@ -1,8 +1,8 @@
 # Pstack session mode
 
-The generated package is `plugins/pstack-mode/`. It starts the selected mode
-through a SessionStart hook, including on resume, clear, and compaction. No mode
-command or custom default agent is needed. Native host instructions stay in place.
+The generated package is `plugins/pstack-mode/`. Install it once for your user,
+then start the mode in a session with `/pstack-mode:mode`. Until then the
+package only adds its commands. Native host instructions stay in place.
 
 ## Contents
 
@@ -32,81 +32,58 @@ redesign code to remove the need for comments.
 controller and hook, and the generator for portable workflow substitutions.
 Do not edit generated files directly.
 
-## Install for one repository
+## Install
 
-From the ramtoshiya skills checkout, run its repository installer once:
+Register this checkout as a local marketplace and install the plugin for your
+user. Nothing is published.
 
 ```sh
-node tools/pstack-session/install-project.mjs /path/to/project /path/to/pstack-mode/plugins/pstack-mode
+claude plugin marketplace add /path/to/pstack-mode
+claude plugin install pstack-mode@pstack-local --scope user
 ```
 
-Then start Claude Code or claudex normally in that project. No custom shell
-command, plugin flags, or additional-directory flags are needed on each launch.
-The registered command is `/pstack-mode:no-comments`.
+After rebuilding, run `claude plugin marketplace update pstack-local` and
+`claude plugin update pstack-mode@pstack-local --scope user`, then start a new
+session. The shared `ramtoshiya:worker-routing` skill comes from the
+`ramtoshiya` plugin, which must also be installed.
 
-The installer copies this generated package and the current shared `ramtoshiya`
-plugin into the project's ignored `.claude/pstack/` directory. It registers a
-private local marketplace through Claude's native CLI and saves enablement in
-`.claude/settings.local.json`. It disables both humanizer plugins and selects
-the shared snapshot for that repository only. Other plugins, settings, and global
-and repository instructions remain. The shared policy is an installed copy of
-the same source that lead uses, not a separate model table.
+## Activate
 
-Run setup again to refresh the snapshots after source changes. There is no
-published marketplace pin for this candidate and none is needed for the local
-installation. The optional `pstack-session` launcher remains a process-only
-alternative, not a prerequisite for normal repository launches.
+Run `/pstack-mode:mode` at the start of a session. The command loads `mode.md`
+with the installed plugin root filled in, and the mode applies for the rest of
+the session. The model cannot start the mode by itself.
 
-Start a fresh session after setup. Existing sessions cannot unload instructions
-they already received. Unslop and technical-writing replace only the two writing
-plugins' behavior, not global or repository instructions.
+To start the mode automatically in one repository, add this to its
+`.claude/settings.local.json`, or to `.claude/settings.json` to share it:
 
-## Codex
-
-Codex does not read Claude's repository settings. For Codex workers, put these
-overrides in the project's `.codex/config.toml`, preserving existing settings:
-
-```toml
-[plugins."humanize@ramtoshiya"]
-enabled = false
-
-[plugins."humanize-korean@ramtoshiya"]
-enabled = false
+```json
+{ "env": { "PSTACK_MODE": "1" } }
 ```
 
-Workers receive the mode and role paths in their briefs. Automatic mode activation
-for a Codex main session additionally requires native installation and explicit
-hook trust in `/hooks`. The Claude repository installer does not perform that
-installation or grant trust. Do not bypass trust or restart a shared app-server.
+The SessionStart hook then loads the mode on startup, resume, clear, and
+compaction. Without `PSTACK_MODE=1` the hook does nothing.
 
 ## Workers
+
+Every worker brief starts by telling the worker to read the absolute `mode.md`
+and `HOSTS.md` paths. That is how a native subagent and a separate T3 or Codex
+process enter the mode. Neither inherits the parent's conversation, and a
+separate process does not inherit its launch environment or settings. The paths
+resolve because every worker runs on the same machine.
 
 The selected workflows read the shared `ramtoshiya:worker-routing` policy for
 model, effort, provider, quota, retry, and escalation. They do not activate lead's
 shipping or review workflow. Arena retains independent candidates, base selection,
 grafting, verification, and cross-family judgment where another family can run.
-
-Native subagents inherit process plugin configuration. Separate Claude processes
-can read the same repository settings. Codex workers need the separate overrides
-above. A provider that already loads those settings needs no new instance or
-launcher. Briefs provide the absolute mode and role paths, and workers perform
-only their assigned roles.
-
-Ignored settings and payloads do not necessarily reach a new isolated worktree.
-Different host profiles may also load different configuration. Configure that
-working directory before its session starts, or use an isolated provider with
-both humanizers disabled. Optional `PSTACK_CLAUDE_INSTANCE`,
-`PSTACK_CODEX_INSTANCE`, and `PSTACK_CLAUDEX_INSTANCE` bindings select those
-providers without changing the routing policy. The host adapter in
-`plugins/pstack-mode/HOSTS.md` describes selection and compaction behavior.
+The host adapter in `plugins/pstack-mode/HOSTS.md` describes tool names and
+compaction behavior.
 
 ## Runtime checks
 
-Check a fresh main and a native worker for loaded mode instructions, the two
-humanizer skills' absence, and unrelated skills' presence. Inspect hook execution,
-not only plugin configuration. After compaction, check that the mode returns and
-route state is retained. Check separate T3 processes independently because the
-parent's plugin settings do not transfer to them.
+Check a fresh session after `/pstack-mode:mode`, and a native worker and a T3
+worker started from it, for the mode's workflow index in their context. Check
+that a session without the command or `PSTACK_MODE=1` does not load the mode.
+After compaction, check that the mode returns and route state is retained.
 
 Run no-comments on real code and inspect the resulting diff and behavior. Static
 prompt hashes protect source policy but do not show that the agent followed it.

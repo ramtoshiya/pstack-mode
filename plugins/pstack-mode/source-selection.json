@@ -23,7 +23,7 @@
     },
     "HOSTS.md": {
       "executable": false,
-      "sha256": "5daa1ffcbde8b2313305b5c08d937022bbd68ecccd3ae36c6e723a35375b2dff"
+      "sha256": "b9c13093d94bb29d2d6c80f628acc66a3c574658c12b104c6051bd52881129cf"
     },
     "LICENSE": {
       "executable": false,
@@ -39,11 +39,11 @@
     },
     "hooks/session-start.py": {
       "executable": false,
-      "sha256": "185e40cce4111336a260e5d4375608eabcbc629211adfb76613705c0c37915ee"
+      "sha256": "e96e24b8fa1f0caaf25c4ee1638e935542a482135dd323c0244396c183fa11d8"
     },
     "mode.md": {
       "executable": false,
-      "sha256": "4d36832c21291565a6eae913eff374e4391f295eeef991437bc07c056c8f4311"
+      "sha256": "1689acba314971ba29c9902cb7454eda29cf728ad6d407bb96b0bc711aab0acb"
     },
     "plugin.json": {
       "executable": false,
@@ -51,7 +51,7 @@
     },
     "skills/architect/SKILL.md": {
       "executable": false,
-      "sha256": "73733a84baf04bd86dc9892068356a240a200819dcad745e7d740e3421d86d18"
+      "sha256": "d04a64d214927c6eb33a1d91b5e4d08b966238b5216de7e1496c7714ec866630"
     },
     "skills/architect/references/design-red-flags.md": {
       "executable": false,
@@ -67,11 +67,11 @@
     },
     "skills/arena/SKILL.md": {
       "executable": false,
-      "sha256": "8b1aefa094d1d8572e3f42168f1a3ce2fa7b98c7a4fd3a1b07ff5fe3f75eedd2"
+      "sha256": "1bb48bdc46731c717fbca5c8d6ee5b9a1de650a7b3d380a3ba5141634e7b3055"
     },
     "skills/how/SKILL.md": {
       "executable": false,
-      "sha256": "db5a35ca3d10a22476a61f3548a763a3befc895bcc7d9a6fae373577d187689a"
+      "sha256": "21b38785c1deae2ba3602b3ccb1bc5d7d29ae45452bd026432e767be7acde5aa"
     },
     "skills/how/references/explainer-prompt.md": {
       "executable": false,
@@ -87,11 +87,15 @@
     },
     "skills/interrogate/SKILL.md": {
       "executable": false,
-      "sha256": "1a747da77b3cd63e480e481d99cd0902f1a6d82f64cd0eff1a5b02549c80654a"
+      "sha256": "d01f2fdeb3d1a22d78a589cecf724140c7d48fa7203b9b2646556b6d6db4a283"
+    },
+    "skills/mode/SKILL.md": {
+      "executable": false,
+      "sha256": "eb82f891c7da527a2e3764495ef9af44fa91d3c13c8416c94eb9c3f72892dbda"
     },
     "skills/no-comments/SKILL.md": {
       "executable": false,
-      "sha256": "4139370511349f01f903ea38ca76a646a1c3422434f8316926984526a4539498"
+      "sha256": "c3af706cb2a6c1b47ab3944ec1f26ef26e6a64b4db1575b1ce64e3eccf62224b"
     },
     "skills/no-comments/references/comment-sicko.md": {
       "executable": false,
@@ -199,7 +203,7 @@
     },
     "skills/show-me-your-work/SKILL.md": {
       "executable": false,
-      "sha256": "cf7aa53e7a1d4566be8670e767fc78fc87b07bc4da37cdf04277ad9e22e97425"
+      "sha256": "3ba4fde4a165c7eacc75c24dfa274f304f7c7069eeb9ad0c77c79138f4e65fb6"
     },
     "skills/show-me-your-work/references/decision-log-template.tsv": {
       "executable": false,
@@ -219,7 +223,7 @@
     },
     "skills/why/SKILL.md": {
       "executable": false,
-      "sha256": "48c40825aeae8264eb3488fdfda713ff8122679df052baa6503d4f8f44ab40ef"
+      "sha256": "7fbdf7f642d455f36b215e8c846b69e8daceb2134c63d8b4bef8c793ca2f4e6c"
     },
     "skills/why/references/epistemics.md": {
       "executable": false,
@@ -318,7 +322,7 @@
     },
     "mode/HOSTS.md": {
       "executable": false,
-      "sha256": "5daa1ffcbde8b2313305b5c08d937022bbd68ecccd3ae36c6e723a35375b2dff"
+      "sha256": "b9c13093d94bb29d2d6c80f628acc66a3c574658c12b104c6051bd52881129cf"
     },
     "mode/hooks/hooks.json": {
       "executable": false,
@@ -326,11 +330,11 @@
     },
     "mode/hooks/session-start.py": {
       "executable": false,
-      "sha256": "185e40cce4111336a260e5d4375608eabcbc629211adfb76613705c0c37915ee"
+      "sha256": "e96e24b8fa1f0caaf25c4ee1638e935542a482135dd323c0244396c183fa11d8"
     },
     "mode/mode.md": {
       "executable": false,
-      "sha256": "4d36832c21291565a6eae913eff374e4391f295eeef991437bc07c056c8f4311"
+      "sha256": "1689acba314971ba29c9902cb7454eda29cf728ad6d407bb96b0bc711aab0acb"
     },
     "patches/cursor-original/agents/comment-sicko.md": {
       "executable": false,
@@ -342,7 +346,7 @@
     },
     "scripts/build-mode.py": {
       "executable": false,
-      "sha256": "fc043a01c38cab5f1185bc7390075349c189f3b121df4f6564c622d7fe6f1092"
+      "sha256": "f525567b4e908495ce06560df3c6e5e886d78dba6d16dbef0b57b8cf3e809b91"
     },
     "skills/architect/SKILL.md": {
       "executable": false,

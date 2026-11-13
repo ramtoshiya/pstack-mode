@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Explore the codebase to answer "how does X work?" questions. Produce architectural explanations at the level of a senior engineer onboarding onto a subsystem, enough to build a working mental model, not so much that it reads like annotated source code.
 
-Before selecting workers, read the shared `ramtoshiya:worker-routing` skill and follow it for model, effort, provider, quota, and retries. It does not activate lead mode. Read `HOSTS.md` at the plugin root for native tool names and experimental provider bindings. Explorers and explainers are readonly: do not modify files or external state.
+Before selecting workers, read the shared `ramtoshiya:worker-routing` skill and follow it for model, effort, provider, quota, and retries. It does not activate lead mode. Read `HOSTS.md` at the plugin root for native tool names and worker activation. Explorers and explainers are readonly: do not modify files or external state.
 
 ## 1. Assess complexity
 
