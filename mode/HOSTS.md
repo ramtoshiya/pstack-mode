@@ -2,7 +2,7 @@
 
 ## Activation {:#process}
 
-The plugin is installed for the user and stays inactive until activated. Run `/pstack-mode:mode` to start the mode in a session. A repository can opt in to automatic activation by setting `PSTACK_MODE=1` in its Claude settings `env`. The SessionStart hook then loads the mode on startup, resume, clear, and compaction. Existing sessions cannot unload instructions they already received.
+The plugin is installed for the user and stays inactive until activated. Run `/pstack-mode:mode` to start the mode in a session. After compaction the SessionStart hook loads the mode again when the transcript shows that command. A repository can opt in to automatic activation by setting `PSTACK_MODE=1` in its Claude settings `env`. The SessionStart hook then loads the mode on startup, resume, clear, and compaction. Existing sessions cannot unload instructions they already received.
 
 Workers enter the mode through their brief, not through settings or launch environment. A native subagent shares the parent's plugin set but not its conversation. A separate T3 process loads its own configuration. Both receive the absolute `mode.md` and `HOSTS.md` paths in the brief, and the paths resolve on the same machine.
 

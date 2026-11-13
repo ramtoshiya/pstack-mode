@@ -51,7 +51,9 @@ session. The shared `ramtoshiya:worker-routing` skill comes from the
 
 Run `/pstack-mode:mode` at the start of a session. The command loads `mode.md`
 with the installed plugin root filled in, and the mode applies for the rest of
-the session. The model cannot start the mode by itself.
+the session. Compaction would otherwise reduce the command's text to a summary,
+so the SessionStart hook loads `mode.md` again when the session's transcript
+shows that you ran the command. The model cannot start the mode by itself.
 
 To start the mode automatically in one repository, add this to its
 `.claude/settings.local.json`, or to `.claude/settings.json` to share it:

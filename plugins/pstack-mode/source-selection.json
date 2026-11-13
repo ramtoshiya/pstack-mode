@@ -23,7 +23,7 @@
     },
     "HOSTS.md": {
       "executable": false,
-      "sha256": "b9c13093d94bb29d2d6c80f628acc66a3c574658c12b104c6051bd52881129cf"
+      "sha256": "7c352e44e9a115011df788d79d77205e6279b16e9b09d2a72ebe1c0197fbdfe5"
     },
     "LICENSE": {
       "executable": false,
@@ -39,7 +39,7 @@
     },
     "hooks/session-start.py": {
       "executable": false,
-      "sha256": "e96e24b8fa1f0caaf25c4ee1638e935542a482135dd323c0244396c183fa11d8"
+      "sha256": "82ef8d2fb888911f20fab0b629163f4dd42478154edd7421c85b771b526f69b4"
     },
     "mode.md": {
       "executable": false,
@@ -322,7 +322,7 @@
     },
     "mode/HOSTS.md": {
       "executable": false,
-      "sha256": "b9c13093d94bb29d2d6c80f628acc66a3c574658c12b104c6051bd52881129cf"
+      "sha256": "7c352e44e9a115011df788d79d77205e6279b16e9b09d2a72ebe1c0197fbdfe5"
     },
     "mode/hooks/hooks.json": {
       "executable": false,
@@ -330,7 +330,7 @@
     },
     "mode/hooks/session-start.py": {
       "executable": false,
-      "sha256": "e96e24b8fa1f0caaf25c4ee1638e935542a482135dd323c0244396c183fa11d8"
+      "sha256": "82ef8d2fb888911f20fab0b629163f4dd42478154edd7421c85b771b526f69b4"
     },
     "mode/mode.md": {
       "executable": false,
