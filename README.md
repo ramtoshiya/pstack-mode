@@ -12,13 +12,13 @@ flowchart LR
   U --> B
   O["mode/<br/>controller and hook"] --> B
   B -- "generates" --> P["plugins/pstack-mode/"]
-  P --> L["pstack-local marketplace"]
+  P -- "pinned commit" --> L["ramtoshiya/skills<br/>marketplace"]
 ```
 
 | Path | Owner | How to change it |
 | --- | --- | --- |
 | `upstream/` | The backnotprop/pstack mirror, kept byte-identical | Merge from the mirror. Adapt text for this package in `TRANSFORMS` in `scripts/build-mode.py`. Send other changes upstream. |
 | `plugins/pstack-mode/` | Generated | Run `python3 scripts/build-mode.py`. |
-| `mode/`, `scripts/`, `tests/`, `docs/`, `.githooks/`, `.claude-plugin/` | This repository | Edit, then rebuild and run the tests. |
+| `mode/`, `scripts/`, `tests/`, `docs/`, `.githooks/` | This repository | Edit, then rebuild and run the tests. |
 
 The pre-commit hook rejects direct edits under `upstream/` and a stale `plugins/pstack-mode/`, and names the fix.

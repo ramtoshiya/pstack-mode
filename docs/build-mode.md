@@ -26,3 +26,11 @@ Use `--check` to validate the skills, not Codex's skill-creator `quick_validate.
 2. When the merge brings a new `upstream: cursor/plugins/pstack @ <sha>` commit, set `CURSOR_ORIGINALS` in `scripts/build-mode.py` to that commit.
 3. Run the generator. If a substitution fails, read the new upstream text and update or delete the substitution.
 4. Commit the merge, the generator change, and the generated plugin together.
+
+## Release
+
+Installed copies come from the commit that the `pstack-mode` entry in the
+`ramtoshiya/skills` marketplace pins. To try a rebuild before release, start
+Claude Code with `claude --plugin-dir plugins/pstack-mode`. To release, push
+`main` to `ramtoshiya/pstack-mode`, then set that entry's `sha` to the pushed
+commit as the skills repository's `docs/upstream-skills.md` describes.

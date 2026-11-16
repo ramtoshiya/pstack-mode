@@ -35,30 +35,30 @@ Do not edit generated files directly.
 
 ## Install
 
-Install the plugin for your user from this checkout. Nothing is published. The
-shared `ramtoshiya:worker-routing` skill comes from the `ramtoshiya` plugin,
-which must also be installed on the same host.
+The `ramtoshiya` marketplace in
+[ramtoshiya/skills](https://github.com/ramtoshiya/skills) lists this package
+pinned to a commit of this repository. The mode needs the shared
+`ramtoshiya:worker-routing` skill from the `ramtoshiya` plugin in the same
+marketplace, so install both on each host.
 
 Claude Code:
 
 ```sh
-claude plugin marketplace add /path/to/pstack-mode
-claude plugin install pstack-mode@pstack-local --scope user
+claude plugin marketplace add ramtoshiya/skills
+claude plugin install ramtoshiya@ramtoshiya --scope user
+claude plugin install pstack-mode@ramtoshiya --scope user
 ```
 
-After rebuilding, run `claude plugin marketplace update pstack-local` and
-`claude plugin update pstack-mode@pstack-local --scope user`, then start a new
-session.
-
-Codex reads the same marketplace and copies the plugin into its cache:
+Codex:
 
 ```sh
-codex plugin marketplace add /path/to/pstack-mode
-codex plugin add pstack-mode@pstack-local
+codex plugin marketplace add ramtoshiya/skills
+codex plugin add ramtoshiya@ramtoshiya
+codex plugin add pstack-mode@ramtoshiya
 ```
 
-After rebuilding, run `codex plugin add pstack-mode@pstack-local` again to
-refresh the copy, then start a new session.
+Start a new session after installing or updating. [Build
+instructions](build-mode.md) describe how a change reaches the pin.
 
 Hermes Agent loads the package through a link, so a rebuild takes effect in the
 next session:

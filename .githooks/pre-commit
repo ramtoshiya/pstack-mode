@@ -2,7 +2,7 @@
 set -e
 cd "$(git rev-parse --show-toplevel)"
 stray=$(git ls-files | cut -d/ -f1 | sort -u |
-  grep -vxE 'upstream|plugins|mode|scripts|tests|docs|\.githooks|\.claude-plugin|README\.md|\.gitignore' || true)
+  grep -vxE 'upstream|plugins|mode|scripts|tests|docs|\.githooks|README\.md|\.gitignore' || true)
 if [ -n "$stray" ]; then
   echo "Unexpected top-level paths: $(echo $stray). Mirror files belong under upstream/: merge with -Xsubtree=upstream as docs/build-mode.md describes." >&2
   exit 1
