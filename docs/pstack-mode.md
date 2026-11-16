@@ -20,9 +20,9 @@ PR babysitting, or overnight autonomy machinery.
 ## Source and policy
 
 The source mirror is `backnotprop/pstack` at
-`08547969e1dffaa6457ea65141cc62c1d9a2eef1`. The no-comments coordinator and both
+`74bcc61bd216687b1d6d480c28f109adfc9824ec`. The no-comments coordinator and both
 Comment Sicko prompt copies use the Cursor originals at
-`de8ee15dd1194627d21eb5fcd41cb1873208dabb`. The mirror's outside-constraint review
+`bf0c7cd80abdbf7fe47b634978a7d1b4071f71a7`. The mirror's outside-constraint review
 exception is not included. Ambiguous keeps are deleted, a second rejected report
 fails no-comments, and MUST KILL retains its original meaning. The workflow can
 redesign code to remove the need for comments.

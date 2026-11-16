@@ -10,8 +10,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "plugins" / "pstack-mode"
-MIRROR_SHA = "08547969e1dffaa6457ea65141cc62c1d9a2eef1"
-CURSOR_SHA = "de8ee15dd1194627d21eb5fcd41cb1873208dabb"
+MIRROR_SHA = "74bcc61bd216687b1d6d480c28f109adfc9824ec"
+CURSOR_SHA = "bf0c7cd80abdbf7fe47b634978a7d1b4071f71a7"
 WORKFLOWS = (
     "no-comments", "how", "why", "architect", "arena", "interrogate",
     "in-your-own-words", "show-me-your-work", "unslop", "technical-writing",
@@ -46,8 +46,8 @@ SKILLS = tuple(sorted(WORKFLOWS + PRINCIPLES))
 CURSOR_COORDINATOR = "patches/cursor-original/skills/no-comments/SKILL.md"
 CURSOR_PROMPT = "patches/cursor-original/agents/comment-sicko.md"
 CURSOR_HASHES = {
-    CURSOR_COORDINATOR: "078ecfe224eafbb017f6476870612838bf6dbe38c0b697e12f0c887d0313f17e",
-    CURSOR_PROMPT: "3e239e40b7b4b9beb2cf7f3ccc57f2388eb8b69bd1ba8ae888ef87ef6e0e2116",
+    CURSOR_COORDINATOR: "9cc934e7541c4db609deeb5fd4e5882c1a4d3956975b5ae1ee693ed340527b9b",
+    CURSOR_PROMPT: "0fb37221ab2a9159714d38f1528898e82b9758b5750f244bbe2e575bb593a1de",
 }
 MANIFEST = "source-selection.json"
 ROUTING = (
@@ -136,8 +136,7 @@ def replace_line(text, start, replacement):
 def transform_skill(path, data):
     """Adapt routing and bundled links without changing the original policies."""
     adapted = {
-        "skills/how/SKILL.md", "skills/why/SKILL.md", "skills/architect/SKILL.md",
-        "skills/arena/SKILL.md", "skills/no-comments/SKILL.md",
+        "skills/architect/SKILL.md", "skills/arena/SKILL.md", "skills/no-comments/SKILL.md",
         "skills/interrogate/SKILL.md", "skills/show-me-your-work/SKILL.md",
         "skills/architect/references/runner-prompt.md",
         "skills/principle-explain-the-number/SKILL.md",
@@ -145,23 +144,7 @@ def transform_skill(path, data):
     if path not in adapted:
         return data
     text = data.decode("utf-8")
-    if path == "skills/how/SKILL.md":
-        text = replace_paragraph(text, "Every spawn is a Task subagent", ROUTING +
-            " Explorers and explainers are readonly: do not modify files or external state.")
-        text = replace_paragraph(text, "**Other harnesses.**",
-            "If the host has no subagent tool, run each role yourself, one after another.")
-    elif path == "skills/why/SKILL.md":
-        text = replace_paragraph(text, "Each spawn below names a role line", ROUTING)
-        text = replace_paragraph(text, "Every spawn is `generalPurpose`",
-            "Give investigators and the synthesizer MCP access. Do not use a host mode "
-            "that strips MCP access. Investigators and the synthesizer must not write files "
-            "or modify external state.")
-        text = replace_once(text, " `model`: the `why investigators` line, default `grok-4.7-xhigh-fast`.", "")
-        text = replace_once(text, "Spawn one synthesizer. `model`: the `why synthesizer` line, default `claude-opus-5-5-xhigh`. It gets:",
-                            "Spawn one synthesizer. It gets:")
-        text = replace_paragraph(text, "**Other harnesses.**",
-            "If the host has no subagent tool, run each investigator and the synthesizer yourself, one after another.")
-    elif path == "skills/architect/SKILL.md":
+    if path == "skills/architect/SKILL.md":
         text = replace_paragraph(text, "Take the runners from the `architect runners` line", ROUTING +
             " Select the design runners under that policy and pass the roles to arena.")
     elif path == "skills/arena/SKILL.md":

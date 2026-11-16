@@ -48,8 +48,8 @@ class BuildModeTests(unittest.TestCase):
         self.assertEqual(skill_dirs, WORKFLOWS | principles)
         self.assertTrue({"poteto-mode", "setup-pstack", "swarm"}.isdisjoint(skill_dirs))
         manifest = json.loads((self.output / "source-selection.json").read_text())
-        self.assertEqual(manifest["upstream_mirror"]["commit"], "08547969e1dffaa6457ea65141cc62c1d9a2eef1")
-        self.assertEqual(manifest["canonical_cursor"]["commit"], "de8ee15dd1194627d21eb5fcd41cb1873208dabb")
+        self.assertEqual(manifest["upstream_mirror"]["commit"], "74bcc61bd216687b1d6d480c28f109adfc9824ec")
+        self.assertEqual(manifest["canonical_cursor"]["commit"], "bf0c7cd80abdbf7fe47b634978a7d1b4071f71a7")
         self.assertEqual(set(manifest["selected_skills"]), {f"skills/{name}" for name in skill_dirs})
         for skill in skill_dirs:
             source = self.repo / "skills" / skill
@@ -67,7 +67,6 @@ class BuildModeTests(unittest.TestCase):
                 if key not in {
                     "skills/no-comments/SKILL.md",
                     "skills/no-comments/references/comment-sicko.md",
-                    "skills/how/SKILL.md", "skills/why/SKILL.md",
                     "skills/architect/SKILL.md", "skills/arena/SKILL.md",
                     "skills/interrogate/SKILL.md", "skills/show-me-your-work/SKILL.md",
                     "skills/architect/references/runner-prompt.md",
@@ -86,8 +85,8 @@ class BuildModeTests(unittest.TestCase):
         original = self.repo / "patches/cursor-original"
         coordinator = (original / "skills/no-comments/SKILL.md").read_bytes()
         prompt = (original / "agents/comment-sicko.md").read_bytes()
-        self.assertEqual(hashlib.sha256(coordinator).hexdigest(), "078ecfe224eafbb017f6476870612838bf6dbe38c0b697e12f0c887d0313f17e")
-        self.assertEqual(hashlib.sha256(prompt).hexdigest(), "3e239e40b7b4b9beb2cf7f3ccc57f2388eb8b69bd1ba8ae888ef87ef6e0e2116")
+        self.assertEqual(hashlib.sha256(coordinator).hexdigest(), "9cc934e7541c4db609deeb5fd4e5882c1a4d3956975b5ae1ee693ed340527b9b")
+        self.assertEqual(hashlib.sha256(prompt).hexdigest(), "0fb37221ab2a9159714d38f1528898e82b9758b5750f244bbe2e575bb593a1de")
         for path in ("agents/comment-sicko.md", "skills/no-comments/references/comment-sicko.md"):
             self.assertEqual((self.output / path).read_bytes(), prompt)
         generated = (self.output / "skills/no-comments/SKILL.md").read_text()
@@ -109,7 +108,7 @@ class BuildModeTests(unittest.TestCase):
 
     def test_generated_routes_keep_workflow_constraints(self):
         texts = {name: (self.output / "skills" / name / "SKILL.md").read_text()
-                 for name in ("how", "why", "architect", "arena", "no-comments",
+                 for name in ("architect", "arena", "no-comments",
                               "interrogate", "show-me-your-work")}
         for name, text in texts.items():
             with self.subTest(skill=name):
@@ -119,12 +118,6 @@ class BuildModeTests(unittest.TestCase):
                 self.assertNotIn("pstack-models", text)
                 self.assertNotIn("grok-4.7", text)
                 self.assertNotIn("claude-opus-5-5", text)
-        self.assertIn("readonly", texts["how"].lower())
-        self.assertIn("Spawn one explainer", texts["how"])
-        self.assertIn("2 to 4 angles", texts["how"])
-        self.assertIn("one investigator per category", texts["why"])
-        self.assertIn("references/epistemics.md", texts["why"])
-        self.assertIn("MCP", texts["why"])
         self.assertIn("at least two structurally distinct candidates", texts["architect"])
         self.assertIn("own output location", texts["arena"])
         self.assertIn("different model family", texts["arena"])
@@ -147,8 +140,8 @@ class BuildModeTests(unittest.TestCase):
 
     def test_check_detects_source_and_output_drift(self):
         cases = (
-            (self.repo / "skills/why/references/epistemics.md", "source change"),
-            (self.output / "skills/how/references/explorer-prompt.md", "output change"),
+            (self.repo / "skills/why/SKILL.md", "source change"),
+            (self.output / "skills/how/SKILL.md", "output change"),
             (self.output / "source-selection.json", "manifest change"),
         )
         for path, label in cases:
@@ -158,9 +151,9 @@ class BuildModeTests(unittest.TestCase):
                 result = self.run_builder("--check", success=False)
                 self.assertIn("stale:", result.stderr)
                 path.write_bytes(original)
-        new_source = self.repo / "skills/how/references/new-helper.md"
+        new_source = self.repo / "skills/how/new-helper.md"
         new_source.write_text("new helper\n")
-        self.assertIn("missing or invalid: skills/how/references/new-helper.md", self.run_builder("--check", success=False).stderr)
+        self.assertIn("missing or invalid: skills/how/new-helper.md", self.run_builder("--check", success=False).stderr)
         new_source.unlink()
         helper = self.output / "skills/show-me-your-work/scripts/log.sh"
         helper.chmod(0o644)
