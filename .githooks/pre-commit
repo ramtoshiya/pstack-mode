@@ -1,15 +1,15 @@
 #!/bin/sh
 set -e
 cd "$(git rev-parse --show-toplevel)"
-if git rev-parse -q --verify MERGE_HEAD >/dev/null; then
-  if git rev-parse -q --verify refs/remotes/upstream/main >/dev/null &&
-     git merge-base --is-ancestor MERGE_HEAD refs/remotes/upstream/main &&
-     [ "$(git write-tree --prefix=upstream/)" != "$(git rev-parse 'MERGE_HEAD^{tree}')" ]; then
-    echo "upstream/ differs from the mirror commit being merged. Keep upstream/ byte-identical to the mirror, and adapt text in TRANSFORMS in scripts/build-mode.py." >&2
-    exit 1
-  fi
-elif ! git diff --cached --quiet -- upstream; then
-  echo "upstream/ is an unchanged copy of the backnotprop/pstack mirror. Adapt text for this package in TRANSFORMS in scripts/build-mode.py, or change it upstream and merge it as docs/build-mode.md describes." >&2
+stray=$(git ls-files | cut -d/ -f1 | sort -u |
+  grep -vxE 'upstream|plugins|mode|scripts|tests|docs|\.githooks|\.claude-plugin|README\.md|\.gitignore' || true)
+if [ -n "$stray" ]; then
+  echo "Unexpected top-level paths: $(echo $stray). Mirror files belong under upstream/: merge with -Xsubtree=upstream as docs/build-mode.md describes." >&2
+  exit 1
+fi
+if ! git diff --cached --quiet -- upstream &&
+   ! git log --format=%T refs/remotes/upstream/main 2>/dev/null | grep -qx "$(git write-tree --prefix=upstream/)"; then
+  echo "upstream/ must match a backnotprop/pstack mirror commit byte for byte. Adapt text for this package in TRANSFORMS in scripts/build-mode.py, or merge from the mirror as docs/build-mode.md describes." >&2
   exit 1
 fi
 python3 scripts/build-mode.py --check

@@ -10,7 +10,7 @@ python3 -m unittest discover -s tests
 
 The generator owns `plugins/pstack-mode/`. It deletes the folder and writes the selected skills from `upstream/skills/`, the Cursor no-comments originals, every file under `mode/` at the plugin root, and the `/pstack-mode:mode` command generated from `mode/mode.md`. `--check` lists missing, stale, and unexpected files without writing. Each substitution must match its anchor text exactly once, so an upstream rewrite stops the build instead of passing through unadapted.
 
-The repository's hooks run the check and the tests before each commit and merge. They also reject edits under `upstream/`, and a mirror merge that leaves `upstream/` different from the mirror. Enable them once per clone:
+The repository's hooks run the check and the tests before each commit and merge. They also reject an `upstream/` that matches no mirror commit, and top-level paths outside this layout. Enable them once per clone:
 
 ```sh
 git config core.hooksPath .githooks
