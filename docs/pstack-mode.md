@@ -19,17 +19,16 @@ PR babysitting, or overnight autonomy machinery.
 
 ## Source and policy
 
-The source mirror is `backnotprop/pstack` at
-`74bcc61bd216687b1d6d480c28f109adfc9824ec`. The no-comments coordinator and both
-Comment Sicko prompt copies use the Cursor originals at
-`bf0c7cd80abdbf7fe47b634978a7d1b4071f71a7`. The mirror's outside-constraint review
-exception is not included. Ambiguous keeps are deleted, a second rejected report
-fails no-comments, and MUST KILL retains its original meaning. The workflow can
-redesign code to remove the need for comments.
+The skills come from this checkout's merge of the `backnotprop/pstack` mirror.
+The no-comments coordinator and both Comment Sicko prompt copies come from Cursor's
+original files instead. The generator reads them with git from the mirror commit
+named in `CURSOR_ORIGINALS`, which copies `cursor/plugins/pstack` exactly. The
+mirror's outside-constraint review exception is not included. Ambiguous keeps are
+deleted, a second rejected report fails no-comments, and MUST KILL retains its
+original meaning. The workflow can redesign code to remove the need for comments.
 
-`source-selection.json` in the generated package records source and output hashes.
-[Build instructions](build-mode.md) explain regeneration. Edit `mode/` for the
-controller and hook, and the generator for portable workflow substitutions.
+[Build instructions](build-mode.md) explain regeneration and syncing. Edit `mode/`
+for the controller and hook, and the generator for portable workflow substitutions.
 Do not edit generated files directly.
 
 ## Install
@@ -87,5 +86,5 @@ worker started from it, for the mode's workflow index in their context. Check
 that a session without the command or `PSTACK_MODE=1` does not load the mode.
 After compaction, check that the mode returns and route state is retained.
 
-Run no-comments on real code and inspect the resulting diff and behavior. Static
-prompt hashes protect source policy but do not show that the agent followed it.
+Run no-comments on real code and inspect the resulting diff and behavior. The
+generator tests show which policy text ships, not that the agent follows it.
