@@ -111,6 +111,11 @@ process enter the mode. Neither inherits the parent's conversation, and a
 separate process does not inherit its launch environment or settings. The paths
 resolve because every worker runs on the same machine.
 
+Hermes Agent runs no workers itself. It hands implementation and worker roles
+to Claude Code, Codex, or claudex with the same brief, through whatever
+orchestration its host provides, instead of `delegate_task`. That tool would
+run the role on Hermes's own model.
+
 The selected workflows read the shared `ramtoshiya:worker-routing` policy for
 model, effort, provider, quota, retry, and escalation. They do not activate lead's
 shipping or review workflow. Arena retains independent candidates, base selection,
