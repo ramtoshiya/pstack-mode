@@ -16,6 +16,7 @@ spec.loader.exec_module(build_mode)
 WORKFLOWS = {
     "no-comments", "how", "why", "architect", "arena", "interrogate",
     "in-your-own-words", "show-me-your-work", "unslop", "technical-writing",
+    "correct", "statechart",
 }
 ADAPTED = set(build_mode.TRANSFORMS) | {
     "skills/no-comments/SKILL.md", "skills/no-comments/references/comment-sicko.md",

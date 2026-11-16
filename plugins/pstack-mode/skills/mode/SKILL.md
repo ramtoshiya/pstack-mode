@@ -18,6 +18,8 @@ This mode applies for the session, including after compaction. Plugin root is `$
 - Competing designs or implementations: use `skills/arena/SKILL.md`. Keep candidates independent until base selection, then graft and verify.
 - Contested design: use `skills/interrogate/SKILL.md` before shipping. Its intent step uses `skills/in-your-own-words/SKILL.md`. This is conditional, not a review gate on every task.
 - Any prose, including the reply: read and apply `skills/unslop/SKILL.md`. Docs, RFCs, readmes, PR descriptions, and commit messages also use `skills/technical-writing/SKILL.md`.
+- The user corrects a mistake that agents could repeat: read and run `skills/correct/SKILL.md` for that mistake class.
+- A product flow, protocol, or lifecycle whose states someone must judge, or a bug that is a path through states: read and run `skills/statechart/SKILL.md`. Hand the reviewer its chart and the shortest path to each broken rule.
 - Before review: run `skills/no-comments/SKILL.md`. Its original keep exceptions and rejection behavior apply. Resolve comment-exposed problems in code, including redesign, instead of replacing comments with safer prose.
 - Long, autonomous, or multi-phase work, or a task the user steps away from to review later: use `skills/show-me-your-work/SKILL.md`. Commit the trail when the stakes need an auditable record. Keep it local otherwise.
 

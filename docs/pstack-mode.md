@@ -7,8 +7,10 @@ package only adds its commands. Native host instructions stay in place.
 ## Contents
 
 The package selects `no-comments`, `how`, `why`, `architect`, `arena`,
-`interrogate`, `in-your-own-words`, `show-me-your-work`, `unslop`, and
-`technical-writing`, plus all 24 `principle-*` skills. The mode loads the complete
+`interrogate`, `in-your-own-words`, `show-me-your-work`, `unslop`,
+`technical-writing`, `correct`, and `statechart`, plus all 24 `principle-*`
+skills. `statechart` runs TypeScript with Node 22.18 or later, Bun, or Deno, and
+its first run installs TLC and Java with mise. The mode loads the complete
 principle applicability index and reads individual bodies when relevant.
 References, helpers, Comment Sicko, and the MIT license are included. The
 benchmark checklist is a supporting reference, not another registered skill.

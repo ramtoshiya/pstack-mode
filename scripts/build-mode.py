@@ -15,6 +15,7 @@ CURSOR_ORIGINALS = "75cd8e69b29b5bc306e1ecc8d735950de5fb8323"
 WORKFLOWS = (
     "no-comments", "how", "why", "architect", "arena", "interrogate",
     "in-your-own-words", "show-me-your-work", "unslop", "technical-writing",
+    "correct", "statechart",
 )
 PRINCIPLES = (
     "principle-attack-the-premise",
