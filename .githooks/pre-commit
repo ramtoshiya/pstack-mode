@@ -1,5 +1,16 @@
 #!/bin/sh
 set -e
 cd "$(git rev-parse --show-toplevel)"
+if git rev-parse -q --verify MERGE_HEAD >/dev/null; then
+  if git rev-parse -q --verify refs/remotes/upstream/main >/dev/null &&
+     git merge-base --is-ancestor MERGE_HEAD refs/remotes/upstream/main &&
+     [ "$(git write-tree --prefix=upstream/)" != "$(git rev-parse 'MERGE_HEAD^{tree}')" ]; then
+    echo "upstream/ differs from the mirror commit being merged. Keep upstream/ byte-identical to the mirror, and adapt text in TRANSFORMS in scripts/build-mode.py." >&2
+    exit 1
+  fi
+elif ! git diff --cached --quiet -- upstream; then
+  echo "upstream/ is an unchanged copy of the backnotprop/pstack mirror. Adapt text for this package in TRANSFORMS in scripts/build-mode.py, or change it upstream and merge it as docs/build-mode.md describes." >&2
+  exit 1
+fi
 python3 scripts/build-mode.py --check
 python3 -m unittest discover -s tests -q
