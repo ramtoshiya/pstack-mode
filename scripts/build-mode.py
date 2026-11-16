@@ -10,6 +10,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parent.parent
+UPSTREAM = ROOT / "upstream"
 OUTPUT = ROOT / "plugins" / "pstack-mode"
 CURSOR_ORIGINALS = "75cd8e69b29b5bc306e1ecc8d735950de5fb8323"
 WORKFLOWS = (
@@ -196,7 +197,7 @@ def expected_package():
 
     sources = {}
     for skill in SKILLS:
-        for relative, entry in tree(ROOT / "skills" / skill).items():
+        for relative, entry in tree(UPSTREAM / "skills" / skill).items():
             sources[f"skills/{skill}/{relative}"] = entry
     prompt = cursor_original("agents/comment-sicko.md")
     sources["skills/no-comments/SKILL.md"] = (cursor_original("skills/no-comments/SKILL.md"), False)
@@ -207,8 +208,8 @@ def expected_package():
         add(path, data, executable)
     add("agents/comment-sicko.md", prompt)
     add("skills/principle-explain-the-number/references/benchmark-checklist.md",
-        (ROOT / "skills/benchmark-checklist/SKILL.md").read_bytes())
-    add("LICENSE", (ROOT / "LICENSE").read_bytes())
+        (UPSTREAM / "skills/benchmark-checklist/SKILL.md").read_bytes())
+    add("LICENSE", (UPSTREAM / "LICENSE").read_bytes())
     metadata = {
         "name": "pstack-mode",
         "description": "A session mode with workflow skills and principles from pstack.",

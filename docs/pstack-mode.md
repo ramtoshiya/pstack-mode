@@ -21,7 +21,7 @@ PR babysitting, or overnight autonomy machinery.
 
 ## Source and policy
 
-The skills come from this checkout's merge of the `backnotprop/pstack` mirror.
+The skills come from `upstream/`, an unchanged copy of the `backnotprop/pstack` mirror.
 The no-comments coordinator and both Comment Sicko prompt copies come from Cursor's
 original files instead. The generator reads them with git from the mirror commit
 named in `CURSOR_ORIGINALS`, which copies `cursor/plugins/pstack` exactly. The

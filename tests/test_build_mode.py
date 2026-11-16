@@ -33,9 +33,10 @@ class BuildModeTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(prefix="pstack-mode-test-")
         self.addCleanup(self.temp.cleanup)
         self.repo = Path(self.temp.name)
-        for directory in ("skills", "scripts", "mode"):
+        for directory in ("upstream/skills", "scripts", "mode"):
             shutil.copytree(REPO / directory, self.repo / directory, symlinks=True)
-        shutil.copy2(REPO / "LICENSE", self.repo / "LICENSE")
+        shutil.copy2(REPO / "upstream/LICENSE", self.repo / "upstream/LICENSE")
+        self.upstream = self.repo / "upstream"
         self.output = self.repo / "plugins/pstack-mode"
         self.env = {**os.environ, "GIT_DIR": str(REPO / ".git")}
         self.run_builder()
@@ -54,19 +55,19 @@ class BuildModeTests(unittest.TestCase):
     def test_selection_copies_unadapted_files_exactly(self):
         skill_dirs = {path.name for path in (self.output / "skills").iterdir()}
         skill_dirs.remove("mode")
-        principles = {path.name for path in (self.repo / "skills").glob("principle-*")}
+        principles = {path.name for path in (self.upstream / "skills").glob("principle-*")}
         self.assertEqual(len(principles), 24)
         self.assertEqual(skill_dirs, WORKFLOWS | principles)
         for skill in skill_dirs:
-            source = self.repo / "skills" / skill
+            source = self.upstream / "skills" / skill
             for src in (path for path in source.rglob("*") if path.is_file()):
-                key = src.relative_to(self.repo).as_posix()
+                key = src.relative_to(self.upstream).as_posix()
                 dest = self.output / key
                 self.assertTrue(dest.is_file(), key)
                 if key not in ADAPTED:
                     self.assertEqual(src.read_bytes(), dest.read_bytes(), key)
                     self.assertEqual(os.access(src, os.X_OK), os.access(dest, os.X_OK), key)
-        self.assertEqual((self.output / "LICENSE").read_bytes(), (self.repo / "LICENSE").read_bytes())
+        self.assertEqual((self.output / "LICENSE").read_bytes(), (self.upstream / "LICENSE").read_bytes())
         for path in ("plugin.json", ".claude-plugin/plugin.json", ".codex-plugin/plugin.json"):
             metadata = json.loads((self.output / path).read_text())
             self.assertEqual(metadata["name"], "pstack-mode")
@@ -84,7 +85,7 @@ class BuildModeTests(unittest.TestCase):
         self.assertIn('subagent_type: "pstack-mode:comment-sicko"', generated)
         self.assertIn("If a keep is refuted or still ambiguous, delete it.", generated)
         self.assertIn("Reject a second, report it open, and fail `/no-comments`.", generated)
-        self.assertIn("`REVIEW`", (self.repo / "skills/no-comments/references/comment-sicko.md").read_text())
+        self.assertIn("`REVIEW`", (self.upstream / "skills/no-comments/references/comment-sicko.md").read_text())
         self.assertNotIn("`REVIEW`", generated + prompt.decode())
 
     def test_build_fails_without_cursor_originals(self):
@@ -118,7 +119,7 @@ class BuildModeTests(unittest.TestCase):
                     missing.append(f"{path.relative_to(self.output)}: {target}")
         self.assertEqual(missing, [])
         ref = self.output / "skills/principle-explain-the-number/references/benchmark-checklist.md"
-        self.assertEqual(ref.read_bytes(), (self.repo / "skills/benchmark-checklist/SKILL.md").read_bytes())
+        self.assertEqual(ref.read_bytes(), (self.upstream / "skills/benchmark-checklist/SKILL.md").read_bytes())
         self.assertFalse((self.output / "skills/benchmark-checklist").exists())
 
     def test_check_reports_drift_and_build_repairs_it(self):
@@ -127,7 +128,7 @@ class BuildModeTests(unittest.TestCase):
             self.run_builder()
             self.run_builder("--check")
 
-        source = self.repo / "skills/why/SKILL.md"
+        source = self.upstream / "skills/why/SKILL.md"
         source.write_text(source.read_text() + "drift\n")
         expect("stale: skills/why/SKILL.md")
         output = self.output / "skills/how/SKILL.md"
@@ -135,7 +136,7 @@ class BuildModeTests(unittest.TestCase):
         expect("stale: skills/how/SKILL.md")
         (self.output / "skills/show-me-your-work/scripts/log.sh").chmod(0o644)
         expect("stale: skills/show-me-your-work/scripts/log.sh")
-        (self.repo / "skills/how/helper.md").write_text("new helper\n")
+        (self.upstream / "skills/how/helper.md").write_text("new helper\n")
         expect("missing: skills/how/helper.md")
         (self.output / "agents/leftover.md").write_text("no source\n")
         expect("unexpected: agents/leftover.md")
