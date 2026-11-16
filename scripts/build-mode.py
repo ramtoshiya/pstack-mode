@@ -64,15 +64,23 @@ disable-model-invocation: true
 
 
 MODE_ROOT = "Plugin root is `{{PLUGIN_ROOT}}`."
-MODE_SKILL_ROOT = ("Plugin root is `${CLAUDE_PLUGIN_ROOT}`. Claude Code expands that variable. "
-                   "On other hosts it is the directory that contains this skill's `skills/mode/` folder.")
+MODE_SKILL_BODY = """# Pstack session mode
+
+Before starting the task, read the entire `mode.md` at the installed plugin root and follow it for this session. The root is the directory containing this skill's `skills/mode/` folder. Resolve it from this skill's path. In `mode.md`, interpret `{{PLUGIN_ROOT}}` as that root. If you cannot read the file, report the failure and stop.
+
+After compaction, retain the plugin root and reload `mode.md` before continuing if the host has not restored it.
+"""
+MAX_MODE_SKILL_BYTES = 8000
 
 
 def mode_skill(mode_text):
-    text = replace_once(mode_text.decode("utf-8"), MODE_ROOT, MODE_SKILL_ROOT)
+    text = replace_once(mode_text.decode("utf-8"), MODE_ROOT, "")
     if "{{PLUGIN_ROOT}}" in text:
         raise ValueError("mode.md may name {{PLUGIN_ROOT}} only in its plugin root sentence")
-    return (MODE_SKILL_HEADER + text).encode("utf-8")
+    skill = (MODE_SKILL_HEADER + MODE_SKILL_BODY).encode("utf-8")
+    if len(skill) > MAX_MODE_SKILL_BYTES:
+        raise ValueError(f"mode skill exceeds {MAX_MODE_SKILL_BYTES} bytes")
+    return skill
 
 
 def json_bytes(value):

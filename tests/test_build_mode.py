@@ -168,18 +168,25 @@ class BuildModeTests(unittest.TestCase):
                 self.assertIn(f"two sources generate {collision}", self.run_builder(success=False).stderr)
                 path.unlink()
 
-    def test_mode_command_carries_current_mode_with_a_root_every_host_resolves(self):
+    def test_mode_command_loads_controller_within_codex_budget(self):
         skill = (self.output / "skills/mode/SKILL.md").read_text()
         header, body = skill.split("---\n\n", 1)
         self.assertIn("name: mode\n", header)
         self.assertIn("disable-model-invocation: true\n", header)
-        mode = (self.repo / "mode/mode.md").read_text()
-        root = ("Plugin root is `${CLAUDE_PLUGIN_ROOT}`. Claude Code expands that variable. "
-                "On other hosts it is the directory that contains this skill's `skills/mode/` folder.")
-        self.assertEqual(body, mode.replace("Plugin root is `{{PLUGIN_ROOT}}`.", root))
-        self.assertNotIn("{{PLUGIN_ROOT}}", body)
+        self.assertLessEqual(len(skill.encode("utf-8")), 8000)
+        self.assertIn("read the entire `mode.md`", body)
+        self.assertIn("{{PLUGIN_ROOT}}", body)
+        self.assertEqual((self.output / "mode.md").read_bytes(), (self.repo / "mode/mode.md").read_bytes())
         codex = (self.output / "skills/mode/agents/openai.yaml").read_text()
         self.assertIn("allow_implicit_invocation: false", codex)
+
+    def test_oversized_mode_skill_fails_before_replacing_package(self):
+        builder = self.repo / "scripts/build-mode.py"
+        text = builder.read_text().replace('MAX_MODE_SKILL_BYTES = 8000', 'MAX_MODE_SKILL_BYTES = 1')
+        builder.write_text(text)
+        result = self.run_builder(success=False)
+        self.assertIn("mode skill exceeds", result.stderr)
+        self.assertTrue((self.output / "mode.md").is_file())
 
     def test_mode_command_needs_its_root_sentence_and_no_other_placeholder(self):
         mode = self.repo / "mode/mode.md"

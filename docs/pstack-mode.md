@@ -77,21 +77,21 @@ as a portable package under a generated namespace.
 ## Activate
 
 Run `/pstack-mode:mode` at the start of a session in Claude Code or Hermes, or
-start a Codex prompt with `$pstack-mode:mode`. The command loads `mode.md`
-with the installed plugin root filled in, and the mode applies for the rest of
-the session. Compaction would otherwise reduce the command's text to a summary,
-so the SessionStart hook loads `mode.md` again when the session's transcript
-shows that you ran the command. The model cannot start the mode by itself.
+start a Codex prompt with `$pstack-mode:mode`. The entry skill directs the agent
+to read `mode.md` from the installed plugin root before working and apply it for
+the session. The model cannot start the mode by itself on Codex or Claude Code.
 
-Only Claude Code expands `${CLAUDE_PLUGIN_ROOT}` in the command. The command
-tells other hosts that the plugin root is the directory that contains
-`skills/mode/`, and Codex and Hermes show the model that path. Codex keeps the
+The entry skill resolves the plugin root from its own `skills/mode/` path and
+uses that root for the placeholder in `mode.md`. Codex keeps the
 model from starting the mode through `skills/mode/agents/openai.yaml`. Hermes
 has no such setting and lists the mode with its other skills, so its model can
 load the mode without the command. Hermes does not run the SessionStart hook,
-so there the mode does not reload after compaction and `PSTACK_MODE=1` does not
-start it. Codex runs a plugin hook only after you trust it in `/hooks`, and the
-hook has not been tested there.
+so there `PSTACK_MODE=1` does not start it. The entry skill asks the agent to
+retain the root and reload the mode after compaction when the host has not
+restored it. The SessionStart hook recognizes the Claude Code command in its
+transcript and restores the mode after compaction. Codex runs a plugin hook only
+after you trust it in `/hooks`. Command detection and restoration have not been
+verified there.
 
 To start the mode automatically in one repository, add this to its
 `.claude/settings.local.json`, or to `.claude/settings.json` to share it:
