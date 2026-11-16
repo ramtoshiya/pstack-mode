@@ -10,6 +10,12 @@ python3 -m unittest discover -s tests
 
 The generator owns `plugins/pstack-mode/`. It deletes the folder and writes the selected skills, the Cursor no-comments originals, every file under `mode/` at the plugin root, and the `/pstack-mode:mode` command generated from `mode/mode.md`. `--check` lists missing, stale, and unexpected files without writing. Each substitution must match its anchor text exactly once, so an upstream rewrite stops the build instead of passing through unadapted.
 
+The repository's pre-commit hook runs the check and the tests. Enable it once per clone:
+
+```sh
+git config core.hooksPath .githooks
+```
+
 ## Sync with upstream
 
 1. Run `git fetch upstream` and `git merge upstream/main`.
