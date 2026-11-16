@@ -1,5 +1,3 @@
-"""Register the package skills with Hermes Agent under the pstack-mode namespace."""
-
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent

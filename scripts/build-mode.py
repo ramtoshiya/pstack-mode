@@ -69,7 +69,6 @@ MODE_SKILL_ROOT = ("Plugin root is `${CLAUDE_PLUGIN_ROOT}`. Claude Code expands 
 
 
 def mode_skill(mode_text):
-    """Expose mode.md as an explicit command that finds the plugin root on every host."""
     text = replace_once(mode_text.decode("utf-8"), MODE_ROOT, MODE_SKILL_ROOT)
     if "{{PLUGIN_ROOT}}" in text:
         raise ValueError("mode.md may name {{PLUGIN_ROOT}} only in its plugin root sentence")
@@ -229,6 +228,7 @@ def expected_package():
     add("plugin.json", json_bytes({
         "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json", **metadata,
     }))
+    add("plugin.yaml", "".join(f"{key}: {json.dumps(metadata[key])}\n" for key in ("name", "description")).encode())
     mode = tree(ROOT / "mode")
     add(MODE_SKILL, mode_skill(mode["mode.md"][0]))
     for relative, (data, executable) in mode.items():

@@ -20,6 +20,7 @@ WORKFLOWS = {
     "in-your-own-words", "show-me-your-work", "unslop", "technical-writing",
     "correct", "statechart",
 }
+PRINCIPLES = {path.name for path in (REPO / "upstream/skills").glob("principle-*")}
 ADAPTED = set(build_mode.TRANSFORMS) | {
     "skills/no-comments/SKILL.md", "skills/no-comments/references/comment-sicko.md",
 }
@@ -57,9 +58,8 @@ class BuildModeTests(unittest.TestCase):
     def test_selection_copies_unadapted_files_exactly(self):
         skill_dirs = {path.name for path in (self.output / "skills").iterdir()}
         skill_dirs.remove("mode")
-        principles = {path.name for path in (self.upstream / "skills").glob("principle-*")}
-        self.assertEqual(len(principles), 24)
-        self.assertEqual(skill_dirs, WORKFLOWS | principles)
+        self.assertEqual(len(PRINCIPLES), 24)
+        self.assertEqual(skill_dirs, WORKFLOWS | PRINCIPLES)
         for skill in skill_dirs:
             source = self.upstream / "skills" / skill
             for src in (path for path in source.rglob("*") if path.is_file()):
@@ -174,11 +174,20 @@ class BuildModeTests(unittest.TestCase):
         self.assertIn("name: mode\n", header)
         self.assertIn("disable-model-invocation: true\n", header)
         mode = (self.repo / "mode/mode.md").read_text()
-        self.assertEqual(body, mode.replace("Plugin root is `{{PLUGIN_ROOT}}`.", build_mode.MODE_SKILL_ROOT))
-        self.assertIn("${CLAUDE_PLUGIN_ROOT}", body)
-        self.assertIn("`skills/mode/` folder", body)
+        root = ("Plugin root is `${CLAUDE_PLUGIN_ROOT}`. Claude Code expands that variable. "
+                "On other hosts it is the directory that contains this skill's `skills/mode/` folder.")
+        self.assertEqual(body, mode.replace("Plugin root is `{{PLUGIN_ROOT}}`.", root))
+        self.assertNotIn("{{PLUGIN_ROOT}}", body)
         codex = (self.output / "skills/mode/agents/openai.yaml").read_text()
         self.assertIn("allow_implicit_invocation: false", codex)
+
+    def test_mode_command_needs_its_root_sentence_and_no_other_placeholder(self):
+        mode = self.repo / "mode/mode.md"
+        original = mode.read_text()
+        mode.write_text(original.replace("Plugin root is `{{PLUGIN_ROOT}}`.", "Plugin root is the folder holding this file."))
+        self.assertIn("Plugin root is `{{PLUGIN_ROOT}}`.", self.run_builder(success=False).stderr)
+        mode.write_text(original + "\nRead `{{PLUGIN_ROOT}}/HOSTS.md` before spawning.\n")
+        self.assertIn("PLUGIN_ROOT", self.run_builder(success=False).stderr)
 
     def test_hermes_registers_every_skill_under_its_directory_name(self):
         spec = importlib.util.spec_from_file_location("pstack_hermes", self.output / "__init__.py")
@@ -194,12 +203,11 @@ class BuildModeTests(unittest.TestCase):
         parser = types.SimpleNamespace(parse_frontmatter=parse_frontmatter)
         with unittest.mock.patch.dict(sys.modules, {"agent": types.ModuleType("agent"), "agent.skill_utils": parser}):
             adapter.register(context)
-        shipped = sorted((self.output / "skills").resolve().glob("*/SKILL.md"))
-        self.assertEqual([call[1] for call in calls], shipped)
+        self.assertEqual(sorted(call[0] for call in calls), sorted(WORKFLOWS | PRINCIPLES | {"mode"}))
         for name, path, description, frontmatter in calls:
-            self.assertEqual(name, path.parent.name)
+            self.assertEqual(path, (self.output / "skills" / name / "SKILL.md").resolve())
             self.assertTrue(description.strip(), name)
-        self.assertIn("name: pstack-mode\n", (self.output / "plugin.yaml").read_text())
+        self.assertIn("name: \"pstack-mode\"\n", (self.output / "plugin.yaml").read_text())
 
     def test_check_ignores_bytecode_a_host_writes_into_the_package(self):
         cache = self.output / "__pycache__/__init__.cpython-314.pyc"
