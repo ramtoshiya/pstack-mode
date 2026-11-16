@@ -1,0 +1,5 @@
+interface:
+  display_name: "Pstack Mode"
+  short_description: "Start pstack session mode in this conversation"
+policy:
+  allow_implicit_invocation: false

@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Pstack session mode {:#mode}
 
-This mode applies for the session, including after compaction. Plugin root is `${CLAUDE_PLUGIN_ROOT}`. Resolve paths below from that root. Keep the host's native coding instructions and the user's repository instructions.
+This mode applies for the session, including after compaction. Plugin root is `${CLAUDE_PLUGIN_ROOT}`. Claude Code expands that variable. On other hosts it is the directory that contains this skill's `skills/mode/` folder. Resolve paths below from that root. Keep the host's native coding instructions and the user's repository instructions.
 
 ## Workflow triggers {:#workflows}
 

@@ -6,7 +6,9 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import types
 import unittest
+import unittest.mock
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -166,13 +168,44 @@ class BuildModeTests(unittest.TestCase):
                 self.assertIn(f"two sources generate {collision}", self.run_builder(success=False).stderr)
                 path.unlink()
 
-    def test_mode_command_carries_current_mode_with_host_expanded_root(self):
+    def test_mode_command_carries_current_mode_with_a_root_every_host_resolves(self):
         skill = (self.output / "skills/mode/SKILL.md").read_text()
         header, body = skill.split("---\n\n", 1)
         self.assertIn("name: mode\n", header)
         self.assertIn("disable-model-invocation: true\n", header)
         mode = (self.repo / "mode/mode.md").read_text()
-        self.assertEqual(body, mode.replace("{{PLUGIN_ROOT}}", "${CLAUDE_PLUGIN_ROOT}"))
+        self.assertEqual(body, mode.replace("Plugin root is `{{PLUGIN_ROOT}}`.", build_mode.MODE_SKILL_ROOT))
+        self.assertIn("${CLAUDE_PLUGIN_ROOT}", body)
+        self.assertIn("`skills/mode/` folder", body)
+        codex = (self.output / "skills/mode/agents/openai.yaml").read_text()
+        self.assertIn("allow_implicit_invocation: false", codex)
+
+    def test_hermes_registers_every_skill_under_its_directory_name(self):
+        spec = importlib.util.spec_from_file_location("pstack_hermes", self.output / "__init__.py")
+        adapter = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(adapter)
+        calls = []
+        context = types.SimpleNamespace(register_skill=lambda *args: calls.append(args))
+
+        def parse_frontmatter(text):
+            header = text.split("---\n", 2)[1]
+            return dict(line.split(": ", 1) for line in header.splitlines() if ": " in line), ""
+
+        parser = types.SimpleNamespace(parse_frontmatter=parse_frontmatter)
+        with unittest.mock.patch.dict(sys.modules, {"agent": types.ModuleType("agent"), "agent.skill_utils": parser}):
+            adapter.register(context)
+        shipped = sorted((self.output / "skills").resolve().glob("*/SKILL.md"))
+        self.assertEqual([call[1] for call in calls], shipped)
+        for name, path, description, frontmatter in calls:
+            self.assertEqual(name, path.parent.name)
+            self.assertTrue(description.strip(), name)
+        self.assertIn("name: pstack-mode\n", (self.output / "plugin.yaml").read_text())
+
+    def test_check_ignores_bytecode_a_host_writes_into_the_package(self):
+        cache = self.output / "__pycache__/__init__.cpython-314.pyc"
+        cache.parent.mkdir()
+        cache.write_bytes(b"bytecode")
+        self.run_builder("--check")
 
 
 if __name__ == "__main__":

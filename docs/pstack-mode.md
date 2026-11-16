@@ -35,8 +35,11 @@ Do not edit generated files directly.
 
 ## Install
 
-Register this checkout as a local marketplace and install the plugin for your
-user. Nothing is published.
+Install the plugin for your user from this checkout. Nothing is published. The
+shared `ramtoshiya:worker-routing` skill comes from the `ramtoshiya` plugin,
+which must also be installed on the same host.
+
+Claude Code:
 
 ```sh
 claude plugin marketplace add /path/to/pstack-mode
@@ -45,16 +48,50 @@ claude plugin install pstack-mode@pstack-local --scope user
 
 After rebuilding, run `claude plugin marketplace update pstack-local` and
 `claude plugin update pstack-mode@pstack-local --scope user`, then start a new
-session. The shared `ramtoshiya:worker-routing` skill comes from the
-`ramtoshiya` plugin, which must also be installed.
+session.
+
+Codex reads the same marketplace and copies the plugin into its cache:
+
+```sh
+codex plugin marketplace add /path/to/pstack-mode
+codex plugin add pstack-mode@pstack-local
+```
+
+After rebuilding, run `codex plugin add pstack-mode@pstack-local` again to
+refresh the copy, then start a new session.
+
+Hermes Agent loads the package through a link, so a rebuild takes effect in the
+next session:
+
+```sh
+mkdir -p ~/.hermes/plugins
+ln -s /path/to/pstack-mode/plugins/pstack-mode ~/.hermes/plugins/pstack-mode
+hermes plugins doctor ~/.hermes/plugins/pstack-mode --ci
+hermes plugins enable pstack-mode
+```
+
+`plugin.yaml` and `__init__.py` make it a native Hermes plugin, so its skills
+use the `pstack-mode:` namespace. Without them Hermes would load `plugin.json`
+as a portable package under a generated namespace.
 
 ## Activate
 
-Run `/pstack-mode:mode` at the start of a session. The command loads `mode.md`
+Run `/pstack-mode:mode` at the start of a session in Claude Code or Hermes, or
+start a Codex prompt with `$pstack-mode:mode`. The command loads `mode.md`
 with the installed plugin root filled in, and the mode applies for the rest of
 the session. Compaction would otherwise reduce the command's text to a summary,
 so the SessionStart hook loads `mode.md` again when the session's transcript
 shows that you ran the command. The model cannot start the mode by itself.
+
+Only Claude Code expands `${CLAUDE_PLUGIN_ROOT}` in the command. The command
+tells other hosts that the plugin root is the directory that contains
+`skills/mode/`, and Codex and Hermes show the model that path. Codex keeps the
+model from starting the mode through `skills/mode/agents/openai.yaml`. Hermes
+has no such setting and lists the mode with its other skills, so its model can
+load the mode without the command. Hermes does not run the SessionStart hook,
+so there the mode does not reload after compaction and `PSTACK_MODE=1` does not
+start it. Codex runs a plugin hook only after you trust it in `/hooks`, and the
+hook has not been tested there.
 
 To start the mode automatically in one repository, add this to its
 `.claude/settings.local.json`, or to `.claude/settings.json` to share it:
@@ -84,7 +121,9 @@ compaction behavior.
 ## Runtime checks
 
 Check a fresh session after `/pstack-mode:mode`, and a native worker and a T3
-worker started from it, for the mode's workflow index in their context. Check
+worker started from it, for the mode's workflow index in their context. On
+Codex and Hermes, also check that the session resolves the installed plugin
+root. Check
 that a session without the command or `PSTACK_MODE=1` does not load the mode.
 After compaction, check that the mode returns and route state is retained.
 

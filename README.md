@@ -1,6 +1,6 @@
 # pstack-mode
 
-A Claude Code plugin that runs a selected part of [pstack](https://github.com/cursor/plugins/tree/main/pstack) as a session mode you start explicitly. The [package guide](docs/pstack-mode.md) covers install, activation, and workers. [Build instructions](docs/build-mode.md) cover regeneration and syncing.
+A Claude Code, Codex, and Hermes Agent plugin that runs a selected part of [pstack](https://github.com/cursor/plugins/tree/main/pstack) as a session mode you start explicitly. The [package guide](docs/pstack-mode.md) covers install, activation, and workers. [Build instructions](docs/build-mode.md) cover regeneration and syncing.
 
 ## Where files come from
 

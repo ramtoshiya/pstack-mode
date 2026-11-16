@@ -63,9 +63,16 @@ disable-model-invocation: true
 """
 
 
+MODE_ROOT = "Plugin root is `{{PLUGIN_ROOT}}`."
+MODE_SKILL_ROOT = ("Plugin root is `${CLAUDE_PLUGIN_ROOT}`. Claude Code expands that variable. "
+                   "On other hosts it is the directory that contains this skill's `skills/mode/` folder.")
+
+
 def mode_skill(mode_text):
-    """Expose mode.md as an explicit command. The host expands the plugin root."""
-    text = mode_text.decode("utf-8").replace("{{PLUGIN_ROOT}}", "${CLAUDE_PLUGIN_ROOT}")
+    """Expose mode.md as an explicit command that finds the plugin root on every host."""
+    text = replace_once(mode_text.decode("utf-8"), MODE_ROOT, MODE_SKILL_ROOT)
+    if "{{PLUGIN_ROOT}}" in text:
+        raise ValueError("mode.md may name {{PLUGIN_ROOT}} only in its plugin root sentence")
     return (MODE_SKILL_HEADER + text).encode("utf-8")
 
 
@@ -233,7 +240,8 @@ def on_disk():
     if not OUTPUT.exists():
         return {}
     return {path.relative_to(OUTPUT).as_posix(): path
-            for path in OUTPUT.rglob("*") if path.is_file() or path.is_symlink()}
+            for path in OUTPUT.rglob("*")
+            if (path.is_file() or path.is_symlink()) and "__pycache__" not in path.relative_to(OUTPUT).parts}
 
 
 def check(files):
