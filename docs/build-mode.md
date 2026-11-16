@@ -8,13 +8,15 @@ python3 scripts/build-mode.py --check
 python3 -m unittest discover -s tests
 ```
 
-The generator owns `plugins/pstack-mode/`. It deletes the folder and writes the selected skills from `upstream/skills/`, the Cursor no-comments originals, every file under `mode/` at the plugin root, and a short `/pstack-mode:mode` entry skill that loads `mode.md`. The generator rejects an entry skill over 8,000 bytes before writing the package. `--check` lists missing, stale, and unexpected files without writing. Each substitution must match its anchor text exactly once, so an upstream rewrite stops the build instead of passing through unadapted.
+The generator owns `plugins/pstack-mode/`. It deletes the folder and writes the selected skills from `upstream/skills/`, the Cursor no-comments originals, every file under `mode/` at the plugin root, and a short `/pstack-mode:mode` entry skill that loads `mode.md`. The generator rejects an entry skill over 8,000 bytes before writing the package. It also validates every skill's frontmatter: only the keys in `SKILL_FRONTMATTER`, each on one line, a `name` that matches the skill folder, and a description of at most 1,024 characters without `<` or `>`. `--check` lists missing, stale, and unexpected files without writing. Each substitution must match its anchor text exactly once, so an upstream rewrite stops the build instead of passing through unadapted.
 
 The repository's hooks run the check and the tests before each commit and merge. They also reject an `upstream/` that matches no mirror commit, and top-level paths outside this layout. Enable them once per clone:
 
 ```sh
 git config core.hooksPath .githooks
 ```
+
+Use `--check` to validate the skills, not Codex's skill-creator `quick_validate.py`. That validator allows only `name`, `description`, `license`, `allowed-tools`, and `metadata`, so it rejects every skill here for `disable-model-invocation`. Claude Code reads that key to keep the skills from loading on their own. Codex and Hermes ignore it and load the skills.
 
 ## Sync with upstream
 

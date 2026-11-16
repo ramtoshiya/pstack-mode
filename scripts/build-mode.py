@@ -71,6 +71,7 @@ Before starting the task, read the entire `mode.md` at the installed plugin root
 After compaction, retain the plugin root and reload `mode.md` before continuing if the host has not restored it.
 """
 MAX_MODE_SKILL_BYTES = 8000
+SKILL_FRONTMATTER = ("name", "description", "disable-model-invocation")
 
 
 def mode_skill(mode_text):
@@ -81,6 +82,38 @@ def mode_skill(mode_text):
     if len(skill) > MAX_MODE_SKILL_BYTES:
         raise ValueError(f"mode skill exceeds {MAX_MODE_SKILL_BYTES} bytes")
     return skill
+
+
+def check_skill_frontmatter(path, data):
+    """Accept only keys every host reads, written as one-line values that YAML parsers agree on."""
+    lines = data.decode("utf-8").split("\n")
+    if lines[0] != "---" or "---" not in lines[1:]:
+        raise ValueError(f"{path}: frontmatter must open and close with a --- line")
+    fields = {}
+    for line in lines[1:lines.index("---", 1)]:
+        key = line.split(":", 1)[0]
+        if key not in SKILL_FRONTMATTER:
+            raise ValueError(f"{path}: frontmatter key {key!r} is not in SKILL_FRONTMATTER in "
+                             "scripts/build-mode.py. Add it there once Claude Code, Codex, and Hermes accept it.")
+        value = line[len(key) + 2:]
+        if not line.startswith(key + ": ") or key in fields:
+            raise ValueError(f"{path}: write {key} once, as `{key}: value` on one line")
+        if value.startswith('"'):
+            try:
+                value = json.loads(value)
+            except ValueError:
+                raise ValueError(f"{path}: {key} must be one double-quoted string") from None
+        elif not value or value[0] in "'[{>|&*!%@`#" or ": " in value or " #" in value:
+            raise ValueError(f"{path}: put the {key} value in double quotes")
+        fields[key] = value
+    skill = path.split("/")[1]
+    if fields.get("name") != skill:
+        raise ValueError(f"{path}: name must be {skill!r}, the skill's directory name")
+    description = fields.get("description", "")
+    if not 0 < len(description) <= 1024 or "<" in description or ">" in description:
+        raise ValueError(f"{path}: description must be 1 to 1024 characters without < or >")
+    if fields.get("disable-model-invocation", "false") not in ("true", "false"):
+        raise ValueError(f"{path}: disable-model-invocation must be true or false")
 
 
 def json_bytes(value):
@@ -241,6 +274,9 @@ def expected_package():
     add(MODE_SKILL, mode_skill(mode["mode.md"][0]))
     for relative, (data, executable) in mode.items():
         add(relative, data, executable)
+    for path, (data, _) in files.items():
+        if path.startswith("skills/") and path.endswith("/SKILL.md") and path.count("/") == 2:
+            check_skill_frontmatter(path, data)
     return files
 
 

@@ -216,6 +216,26 @@ class BuildModeTests(unittest.TestCase):
             self.assertTrue(description.strip(), name)
         self.assertIn("name: \"pstack-mode\"\n", (self.output / "plugin.yaml").read_text())
 
+    def test_frontmatter_keeps_host_keys_and_rejects_what_a_host_would_misread(self):
+        skill = self.upstream / "skills/how/SKILL.md"
+        original = skill.read_text()
+        self.assertIn("\ndisable-model-invocation: true\n", original)
+        self.run_builder("--check")
+        cases = (
+            ("disable-model-invocation:", "disable-model-invokation: true",
+             "'disable-model-invokation' is not in SKILL_FRONTMATTER"),
+            ("name:", "name: why", "name must be 'how'"),
+            ("description:", "description: Use it: always", "put the description value in double quotes"),
+            ("description:", 'description: "Pick <one>"', "without < or >"),
+            ("disable-model-invocation:", "disable-model-invocation: yes", "must be true or false"),
+        )
+        for key, line, error in cases:
+            with self.subTest(line=line):
+                lines = [line if entry.startswith(key) else entry for entry in original.split("\n")]
+                skill.write_text("\n".join(lines))
+                self.assertIn(error, self.run_builder("--check", success=False).stderr)
+        skill.write_text(original)
+
     def test_check_ignores_bytecode_a_host_writes_into_the_package(self):
         cache = self.output / "__pycache__/__init__.cpython-314.pyc"
         cache.parent.mkdir()
