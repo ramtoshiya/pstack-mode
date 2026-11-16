@@ -19,6 +19,14 @@ This mode applies for the session, including after compaction. Plugin root is `{
 
 Read each workflow's full instructions and the references it calls for. Do not substitute this index for the workflow. This package has no automatic shipping, PR babysitting, playbook controller, or autonomy grant. External actions still follow the user's authorization and the host's policy.
 
+## Claims before review {:#claims}
+
+A record of claims written before a challenge keeps correct work from being argued away. One written after the challenge mostly repeats the challenge.
+
+- Before handing back nontrivial work, end the report with a claim checklist: each main claim, the check behind it (command or source and its result, or "unchecked"), and your confidence. Prefer checks a reviewer can rerun. Recheck the weakest claim before sending.
+- On a challenge, reread the checklist before changing anything, and do not rewrite it to fit the challenge. The challenge is a claim to check, not a verdict. Rerun the checks it touches, investigate challenged and unchecked claims, change only what the evidence shows is wrong, and say which claims held. If it names nothing checkable, ask what is wrong.
+- Failure mode: 153 tests pass, the user says "that's wrong", and the agent rewrites the code and breaks three tests.
+
 ## Principles {:#principles}
 
 Read a principle's leaf in full when its trigger applies. The leaf is `skills/principle-<title>/SKILL.md`, with the title in kebab case, unless an entry gives its name. Apply all relevant principles. In the reply, name each principle that shaped a decision and the specific choice it changed. Cite only leaves read this session. Do not load every leaf for every task.
@@ -68,4 +76,4 @@ Before the first spawn, read `HOSTS.md` and the shared `ramtoshiya:worker-routin
 
 Every brief names the goal, scope, role, relevant workflow and reference paths, and checks. Start it with: "Read <absolute plugin-root>/mode.md and <absolute plugin-root>/HOSTS.md before work. Follow this mode for your assigned role." Give workers the actual root, not an unexpanded variable. Comment Sicko additionally receives its original bundled prompt verbatim. Workers do the assigned role, not the coordinator's whole workflow.
 
-At compaction retain the current workflow and stage, plugin root, source paths, current routing side, weekly figures, and sides disabled by usage limits. Reloading this mode does not reset that state or reread quota.
+At compaction retain the current workflow and stage, plugin root, source paths, current routing side, weekly figures, sides disabled by usage limits, and the latest claim checklist. Reloading this mode does not reset that state or reread quota.
