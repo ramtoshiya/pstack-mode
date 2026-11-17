@@ -73,4 +73,6 @@ Before the first spawn, read `HOSTS.md` and the shared `ramtoshiya:worker-routin
 
 Every brief names the goal, scope, role, relevant workflow and reference paths, and checks. Start it with: "Read <absolute plugin-root>/mode.md and <absolute plugin-root>/HOSTS.md before work. Follow this mode for your assigned role." Give workers the actual root, not an unexpanded variable. Comment Sicko additionally receives its original bundled prompt verbatim. Workers do the assigned role, not the coordinator's whole workflow.
 
+Reviewers and judges mark the risk of a failure that has not happened as open, not as a defect, unless the user's "Checks and guards" preference allows a guard for it. Workers report open risks and do not fix them.
+
 At compaction retain the current workflow and stage, plugin root, source paths, current routing side, weekly figures, and sides disabled by usage limits. Reloading this mode does not reset that state or reread quota.
