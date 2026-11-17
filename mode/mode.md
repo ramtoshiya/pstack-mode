@@ -14,6 +14,11 @@ This mode applies for the session, including after compaction. Plugin root is `{
 - Any prose, including the reply: read and apply `skills/unslop/SKILL.md`. Docs, RFCs, readmes, PR descriptions, and commit messages also use `skills/technical-writing/SKILL.md`.
 - The user corrects a mistake that agents could repeat: read and run `skills/correct/SKILL.md` for that mistake class.
 - A product flow, protocol, or lifecycle whose states someone must judge, or a bug that is a path through states: read and run `skills/statechart/SKILL.md`. Hand the reviewer its chart and the shortest path to each broken rule.
+- Bug fix: commit a failing repro, taken where the user sees the bug, before the fix. Cheap local test path: run `skills/tdd/SKILL.md`.
+- Refactor: first pin behavior with a characterization test, snapshot, or equivalence check, and keep it passing. Type check and lint are not a pin.
+- Verify fixes and features on the surface the user touches. Wrong surface or inconclusive is not a pass. No scripted way to drive it: run `skills/create-verification-skill/SKILL.md`.
+- Concurrency, retries, state machines, or parsers where tests reach little: run `skills/create-formal-verification-skill/SKILL.md`.
+- Unproven effect of a diff beyond itself: run `skills/blast-radius/SKILL.md`.
 - Before review: run `skills/no-comments/SKILL.md`. Its original keep exceptions and rejection behavior apply. Resolve comment-exposed problems in code, including redesign, instead of replacing comments with safer prose.
 - Long, autonomous, or multi-phase work, or a task the user steps away from to review later: use `skills/show-me-your-work/SKILL.md`. Commit the trail when the stakes need an auditable record. Keep it local otherwise.
 
@@ -40,7 +45,7 @@ Read a principle's leaf in full when its trigger applies. The leaf is `skills/pr
 
 - **Model the Domain.** Writing stateful logic, or code that branches a lot or repeats a shape assumption across files. Encode the domain in a structure (state machine, typed model, table or registry, reducer, boundary, the right collection) instead of scattered conditionals.
 - **Boundary Discipline.** Wiring validation, error handling, or framework adapters. Guards at system boundaries, trust internal types, keep business logic pure.
-- **Type System Discipline.** Designing types or a signature in any typed language. Make illegal states unrepresentable, brand primitives, parse external data at boundaries.
+- **Type System Discipline.** Designing types or a signature in any typed language. Make illegal states unrepresentable, brand primitives, parse external data at boundaries. TypeScript: also `skills/typescript-best-practices/SKILL.md`.
 - **Make Operations Idempotent.** Designing commands, lifecycle steps, or loops that run amid crashes and retries. Converge to the same end state.
 - **Migrate Callers Then Delete Legacy APIs.** Introducing a new internal API while old callers exist. Migrate and delete in one wave.
 - **Separate Before Serializing Shared State.** Concurrent actors might write the same file, branch, key, or object. Eliminate the sharing first.

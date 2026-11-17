@@ -18,7 +18,9 @@ spec.loader.exec_module(build_mode)
 WORKFLOWS = {
     "no-comments", "how", "why", "architect", "arena", "interrogate",
     "in-your-own-words", "show-me-your-work", "unslop", "technical-writing",
-    "correct", "statechart",
+    "correct", "statechart", "tdd", "blast-radius", "typescript-best-practices",
+    "create-verification-skill", "maintain-verification-skill",
+    "create-formal-verification-skill", "maintain-formal-verification-skill",
 }
 PRINCIPLES = {path.name for path in (REPO / "upstream/skills").glob("principle-*")}
 ADAPTED = set(build_mode.TRANSFORMS) | {
@@ -97,7 +99,8 @@ class BuildModeTests(unittest.TestCase):
         self.assertIn(f"cannot read agents/comment-sicko.md at {build_mode.CURSOR_ORIGINALS}", result.stderr)
 
     def test_package_routes_workers_through_shared_policy(self):
-        for name in ("architect", "arena", "no-comments", "interrogate", "show-me-your-work"):
+        for name in ("architect", "arena", "no-comments", "interrogate", "show-me-your-work",
+                     "maintain-verification-skill"):
             with self.subTest(skill=name):
                 text = (self.output / "skills" / name / "SKILL.md").read_text()
                 self.assertIn("ramtoshiya:worker-routing", text)
@@ -117,12 +120,37 @@ class BuildModeTests(unittest.TestCase):
                 if target == "url" or target.startswith(("#", "http:", "https:", "mailto:")):
                     continue
                 relative = target.split("#", 1)[0]
-                if relative and not (path.parent / relative).is_file():
+                if relative and not (path.parent / relative).exists():
                     missing.append(f"{path.relative_to(self.output)}: {target}")
         self.assertEqual(missing, [])
         ref = self.output / "skills/principle-explain-the-number/references/benchmark-checklist.md"
         self.assertEqual(ref.read_bytes(), (self.upstream / "skills/benchmark-checklist/SKILL.md").read_bytes())
         self.assertFalse((self.output / "skills/benchmark-checklist").exists())
+
+    def test_build_fails_when_a_selected_skill_or_substitution_anchor_disappears(self):
+        with unittest.mock.patch.multiple(build_mode, ROOT=self.repo, UPSTREAM=self.upstream), \
+                unittest.mock.patch.dict(os.environ, self.env):
+            build_mode.expected_package()
+            for skill in build_mode.SKILLS:
+                with self.subTest(skill=skill):
+                    source = self.upstream / "skills" / skill
+                    source.rename(self.repo / "removed")
+                    with self.assertRaisesRegex(ValueError, "not a regular directory"):
+                        build_mode.expected_package()
+                    (self.repo / "removed").rename(source)
+            for path in set(build_mode.TRANSFORMS) - {"skills/no-comments/SKILL.md"}:
+                with self.subTest(path=path):
+                    source = self.upstream / path
+                    original = source.read_bytes()
+                    source.write_text("rewritten upstream text\n")
+                    with self.assertRaisesRegex(ValueError, "expected one"):
+                        build_mode.expected_package()
+                    source.write_bytes(original)
+
+    def test_mode_names_only_skill_paths_that_ship(self):
+        paths = re.findall(r"`(skills/[^`<]+)`", (self.output / "mode.md").read_text())
+        self.assertIn("skills/create-verification-skill/SKILL.md", paths)
+        self.assertEqual([path for path in paths if not (self.output / path).is_file()], [])
 
     def test_check_reports_drift_and_build_repairs_it(self):
         def expect(problem):

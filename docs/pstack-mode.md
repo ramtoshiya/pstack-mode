@@ -15,9 +15,33 @@ principle applicability index and reads individual bodies when relevant.
 References, helpers, Comment Sicko, and the MIT license are included. The
 benchmark checklist is a supporting reference, not another registered skill.
 
+The verification layer turns checks into project artifacts instead of prose:
+
+| Skill | What it leaves behind |
+| --- | --- |
+| `create-verification-skill` | A project-local `verify-<app>` skill that launches, drives, and captures evidence from the app's real surface, with a feature map |
+| `maintain-verification-skill` | Corrections to that skill and its map after the app changes |
+| `create-formal-verification-skill` | A project-local check, shown to fail on a broken variant, with a coverage record and sync commit |
+| `maintain-formal-verification-skill` | That check brought back in line with changed code, each failure judged as drift or a bug |
+| `tdd` | A regression test that fails before a bug fix and passes after it |
+| `blast-radius` | Proof, by running code, of what a change cannot break elsewhere |
+| `typescript-best-practices` | TypeScript rules that `principle-type-system-discipline` links to |
+
+The mode carries the discipline of pstack's bug-fix, refactoring, and feature
+playbooks as trigger lines instead of the playbooks themselves. A bug fix
+commits a failing repro before the fix. A refactor pins behavior first, and
+type check and lint do not count as a pin. A fix or feature is verified on the
+surface its user touches. The playbooks are not copied because they depend on
+the poteto-mode controller, its subagent section, model IDs, and its PR flow.
+
 It does not include the poteto-mode controller, poteto-agent wrapper,
 setup-pstack model configuration, swarm, playbooks, automatic shipping,
-PR babysitting, or overnight autonomy machinery.
+PR babysitting, or overnight autonomy machinery. `figure-it-out` is left out
+because it runs from the poteto-mode controller, and its rule to build the
+verification harness before features is already in
+`principle-foundational-thinking`. `reflect` is left out because it reads
+session transcripts and edits skills, and `correct` already turns a repeated
+mistake into a check.
 
 ## Source and policy
 

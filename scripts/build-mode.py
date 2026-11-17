@@ -16,7 +16,9 @@ CURSOR_ORIGINALS = "75cd8e69b29b5bc306e1ecc8d735950de5fb8323"
 WORKFLOWS = (
     "no-comments", "how", "why", "architect", "arena", "interrogate",
     "in-your-own-words", "show-me-your-work", "unslop", "technical-writing",
-    "correct", "statechart",
+    "correct", "statechart", "tdd", "blast-radius", "typescript-best-practices",
+    "create-verification-skill", "maintain-verification-skill",
+    "create-formal-verification-skill", "maintain-formal-verification-skill",
 )
 PRINCIPLES = (
     "principle-attack-the-premise",
@@ -172,6 +174,16 @@ def replace_line(text, start, replacement):
     return "".join(lines)
 
 
+def delete_line(text, start):
+    """Drop a frontmatter key that not every host reads, such as Claude Code's `paths`."""
+    lines = text.splitlines(keepends=True)
+    matches = [index for index, line in enumerate(lines) if line.startswith(start)]
+    if len(matches) != 1:
+        raise ValueError(f"expected one line starting with {start!r}")
+    del lines[matches[0]]
+    return "".join(lines)
+
+
 def architect(text):
     return replace_paragraph(text, "Take the runners from the `architect runners` line", ROUTING +
         " Select the design runners under that policy and pass the roles to arena.")
@@ -231,6 +243,13 @@ TRANSFORMS = {
     "skills/principle-explain-the-number/SKILL.md": lambda text: replace_once(text,
         "with the [benchmark-checklist](../benchmark-checklist/SKILL.md) skill",
         "with the [benchmark checklist](references/benchmark-checklist.md)"),
+    "skills/principle-type-system-discipline/SKILL.md": lambda text: replace_once(text,
+        "see the `typescript-best-practices` skill.",
+        "see the [typescript-best-practices](../typescript-best-practices/SKILL.md) skill."),
+    "skills/typescript-best-practices/SKILL.md": lambda text: delete_line(text, "paths: "),
+    "skills/maintain-verification-skill/SKILL.md": lambda text: replace_once(text,
+        "One read-only subagent per feature file, launched concurrently.",
+        "One read-only subagent per feature file, launched concurrently. " + ROUTING),
 }
 
 
