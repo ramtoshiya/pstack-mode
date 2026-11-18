@@ -12,7 +12,7 @@ import sys
 ROOT = Path(__file__).resolve().parent.parent
 UPSTREAM = ROOT / "upstream"
 OUTPUT = ROOT / "plugins" / "pstack-mode"
-CURSOR_ORIGINALS = "75cd8e69b29b5bc306e1ecc8d735950de5fb8323"
+CURSOR_ORIGINALS = "427e37b2903f8ab2c8c836b79af7c785c90f70d2"
 WORKFLOWS = (
     "no-comments", "how", "why", "architect", "arena", "interrogate",
     "in-your-own-words", "show-me-your-work", "unslop", "technical-writing",
@@ -184,13 +184,8 @@ def delete_line(text, start):
     return "".join(lines)
 
 
-def architect(text):
-    return replace_paragraph(text, "Take the runners from the `architect runners` line", ROUTING +
-        " Select the design runners under that policy and pass the roles to arena.")
-
-
 def arena(text):
-    text = replace_line(text, "3. Pick the runners.",
+    text = replace_line(text, "3. Pick the runners",
         "3. Pick the runners. " + ROUTING + " Use two runners by default, or one "
         "when the caller specifies one. Add runners for multiple design directions. "
         "Use the same model N times when work is generation-bound rather than judgment-sensitive. "
@@ -214,7 +209,7 @@ def arena(text):
 def no_comments(text):
     return replace_once(text,
         '1. Spawn `Task` with `subagent_type: "comment-sicko"`. Pass the scope. '
-        "Pick each subagent's reasoning level and fast or standard speed for the job, "
+        "Pick each subagent's reasoning level for the job, "
         "per the Subagents section of the **poteto-mode** skill. Do not restate its rules.",
         "1. " + ROUTING + " "
         'In Claude Code, spawn `Agent` with `subagent_type: "pstack-mode:comment-sicko"`. '
@@ -229,22 +224,19 @@ def no_comments(text):
 
 
 TRANSFORMS = {
-    "skills/architect/SKILL.md": architect,
     "skills/arena/SKILL.md": arena,
     "skills/no-comments/SKILL.md": no_comments,
     "skills/interrogate/SKILL.md": lambda text: replace_once(text,
         "Read the `interrogate reviewers` line in place of `arena runners`.",
         ROUTING + " Select adversaries using that policy."),
     "skills/show-me-your-work/SKILL.md": lambda text: replace_once(text,
-        "Pick each subagent's reasoning level and fast or standard speed for the job, "
+        "Pick each subagent's reasoning level for the job, "
         "per the Subagents section of the **poteto-mode** skill.", ROUTING),
-    "skills/architect/references/runner-prompt.md": lambda text: replace_once(text,
-        "each on a different model", "assigned through the shared worker-routing policy"),
     "skills/principle-explain-the-number/SKILL.md": lambda text: replace_once(text,
-        "with the [benchmark-checklist](../benchmark-checklist/SKILL.md) skill",
-        "with the [benchmark checklist](references/benchmark-checklist.md)"),
+        "run the [benchmark-checklist](../benchmark-checklist/SKILL.md) skill",
+        "run the [benchmark checklist](references/benchmark-checklist.md)"),
     "skills/principle-type-system-discipline/SKILL.md": lambda text: replace_once(text,
-        "see the `typescript-best-practices` skill.",
+        "see the **typescript-best-practices** skill.",
         "see the [typescript-best-practices](../typescript-best-practices/SKILL.md) skill."),
     "skills/typescript-best-practices/SKILL.md": lambda text: delete_line(text, "paths: "),
     "skills/maintain-verification-skill/SKILL.md": lambda text: replace_once(text,

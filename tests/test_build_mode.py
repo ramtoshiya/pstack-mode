@@ -99,7 +99,7 @@ class BuildModeTests(unittest.TestCase):
         self.assertIn(f"cannot read agents/comment-sicko.md at {build_mode.CURSOR_ORIGINALS}", result.stderr)
 
     def test_package_routes_workers_through_shared_policy(self):
-        for name in ("architect", "arena", "no-comments", "interrogate", "show-me-your-work",
+        for name in ("arena", "no-comments", "interrogate", "show-me-your-work",
                      "maintain-verification-skill"):
             with self.subTest(skill=name):
                 text = (self.output / "skills" / name / "SKILL.md").read_text()

@@ -8,7 +8,7 @@ This mode applies for the session, including after compaction. Plugin root is `{
 - Nontrivial change, architecture decision, or uncertainty about the current design: read and run `skills/how/SKILL.md`.
 - Motivation, historical rationale, ownership, or layering constraints: read and run `skills/why/SKILL.md`. Keep evidence, inference, and source gaps distinct.
 - Any code: name the data shape first and apply Model the Domain.
-- Code crossing a function boundary: read and run `skills/architect/SKILL.md` before implementation. When no-comments calls architect, stop architect at the sketch. Its coordinator implements afterward.
+- Code crossing a function boundary: read and run `skills/architect/SKILL.md` before implementation.
 - Competing designs or implementations: use `skills/arena/SKILL.md`. Keep candidates independent until base selection, then graft and verify.
 - Contested design: use `skills/interrogate/SKILL.md` before shipping. Its intent step uses `skills/in-your-own-words/SKILL.md`. This is conditional, not a review gate on every task.
 - Any prose, including the reply: read and apply `skills/unslop/SKILL.md`. Docs, RFCs, readmes, PR descriptions, and commit messages also use `skills/technical-writing/SKILL.md`.
