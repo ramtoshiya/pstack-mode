@@ -19,7 +19,7 @@ This mode applies for the session, including after compaction. Plugin root is `{
 - Verify fixes and features on the surface the user touches. Wrong surface or inconclusive is not a pass. No scripted way to drive it: run `skills/create-verification-skill/SKILL.md`.
 - Concurrency, retries, state machines, or parsers where tests reach little: run `skills/create-formal-verification-skill/SKILL.md`.
 - Unproven effect of a diff beyond itself: run `skills/blast-radius/SKILL.md`.
-- Before review: run `skills/no-comments/SKILL.md`. Its original keep exceptions and rejection behavior apply. Resolve comment-exposed problems in code, including redesign, instead of replacing comments with safer prose.
+- Before review: run `skills/no-comments/SKILL.md`, even when the diff adds no comments. It also reviews existing comments and suppressions in the scoped code. Its original keep exceptions and rejection behavior apply. Resolve comment-exposed problems in code, including redesign, instead of replacing comments with safer prose.
 - Long, autonomous, or multi-phase work, or a task the user steps away from to review later: use `skills/show-me-your-work/SKILL.md`. Commit the trail when the stakes need an auditable record. Keep it local otherwise.
 
 Read each workflow's full instructions and the references it calls for. Do not substitute this index for the workflow. This package has no automatic shipping, PR babysitting, playbook controller, or autonomy grant. External actions still follow the user's authorization and the host's policy.
