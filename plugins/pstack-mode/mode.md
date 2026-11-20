@@ -69,7 +69,7 @@ Read a principle's leaf in full when its trigger applies. The leaf is `skills/pr
 
 ## Workers and context {:#workers}
 
-Before the first spawn, read `HOSTS.md` and the shared `ramtoshiya:worker-routing` skill. Use its single model, effort, provider, quota, retry, and escalation policy for all workflows. Do not load lead mode or its child-lead or ship-first review rules. Preserve workflow role counts and model-family constraints.
+Before the first spawn, read `HOSTS.md` and the shared `ramtoshiya:worker-routing` skill. Use its single model, effort, provider, quota, urgency, retry, and escalation policy for all workflows. Preserve workflow role counts and model-family constraints.
 
 Every brief names the goal, scope, role, relevant workflow and reference paths, and checks. Start it with: "Read <absolute plugin-root>/mode.md and <absolute plugin-root>/HOSTS.md before work. Follow this mode for your assigned role." Give workers the actual root, not an unexpanded variable. Comment Sicko additionally receives its original bundled prompt verbatim. Workers do the assigned role, not the coordinator's whole workflow.
 

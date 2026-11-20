@@ -8,7 +8,7 @@ Workers enter the mode through their brief, not through settings or launch envir
 
 ## Shared routing {:#routing}
 
-Read the shared `ramtoshiya:worker-routing` skill once before spawning. Resolve it through the host's available skills. If the host cannot resolve it, report the installation mismatch instead of inventing another table. Loading this policy does not activate lead mode. The caller keeps its roles, candidate counts, and family constraints.
+Read the shared `ramtoshiya:worker-routing` skill once before spawning. Resolve it through the host's available skills. If the host cannot resolve it, report the installation mismatch instead of inventing another table. The caller keeps its roles, candidate counts, and family constraints.
 
 Use the host's listed model IDs and effort options. Do not carry Cursor model slugs into another host. On Claude Code use `Agent` with `subagent_type: general-purpose`, or the registered `pstack-mode:comment-sicko` for that role. On Codex use `spawn_agent`. Hermes does not spawn workers, as the Hermes section below describes. Preserve read-only role boundaries even when the API has no `readonly` parameter. When the session has no native agent API, start workers with the thread tool that `ramtoshiya:worker-routing` names for the host, such as `bb thread spawn` in BB or `delegate_task` in T3. Perform the calling skill's roles sequentially, as its fallback permits, only when neither is available. Do not describe sequential passes as independent fresh workers.
 
@@ -20,4 +20,4 @@ Hermes talks with the user and runs only the conversation workflows: in-your-own
 
 ## T3 providers and working directories {:#t3}
 
-Use the provider selected by worker-routing. Keep the existing worker profile's `AGENTMEMORY_SDK_CHILD=1`. A new isolated checkout or a different host profile need not load the parent's settings, so the brief is the only activation a worker can rely on. Worker briefs that delegate again carry the same absolute mode paths. Keep working-directory assumptions and route state in the compaction handoff. A T3 child never loads lead mode merely because it runs on a top-tier model.
+Use the provider selected by worker-routing. Keep the existing worker profile's `AGENTMEMORY_SDK_CHILD=1`. A new isolated checkout or a different host profile need not load the parent's settings, so the brief is the only activation a worker can rely on. Worker briefs that delegate again carry the same absolute mode paths. Keep working-directory assumptions and route state in the compaction handoff.

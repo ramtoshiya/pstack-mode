@@ -49,8 +49,8 @@ PRINCIPLES = (
 SKILLS = tuple(sorted(WORKFLOWS + PRINCIPLES))
 ROUTING = (
     "Before selecting workers, read the shared `ramtoshiya:worker-routing` skill "
-    "and follow it for model, effort, provider, quota, and retries. It does not "
-    "activate lead mode. Read `HOSTS.md` at the plugin root for native tool names "
+    "and follow it for model, effort, provider, quota, and retries. Read `HOSTS.md` "
+    "at the plugin root for native tool names "
     "and worker activation."
 )
 

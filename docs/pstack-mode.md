@@ -146,8 +146,7 @@ orchestration its host provides, instead of `delegate_task`. That tool would
 run the role on Hermes's own model.
 
 The selected workflows read the shared `ramtoshiya:worker-routing` policy for
-model, effort, provider, quota, retry, and escalation. They do not activate lead's
-shipping or review workflow. Arena retains independent candidates, base selection,
+model, effort, provider, quota, urgency, retry, and escalation. Arena retains independent candidates, base selection,
 grafting, verification, and cross-family judgment where another family can run.
 The host adapter in `plugins/pstack-mode/HOSTS.md` describes tool names and
 compaction behavior.
