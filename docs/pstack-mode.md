@@ -112,8 +112,13 @@ has no such setting and lists the mode with its other skills, so its model can
 load the mode without the command. Hermes does not run the SessionStart hook,
 so there `PSTACK_MODE=1` does not start it. The entry skill asks the agent to
 retain the root and reload the mode after compaction when the host has not
-restored it. The SessionStart hook recognizes the Claude Code command in its
-transcript and restores the mode after compaction. Codex runs a plugin hook only
+restored it. After compaction in Claude Code, the SessionStart hook restores
+the mode when the transcript shows the command, or when the session's first
+message is a worker brief that reads `mode.md` from a pstack-mode plugin root.
+For a brief it injects that root's `mode.md`, so a brief that names a
+development build or another installed version gets the file it named. The
+root counts as pstack-mode when its `.claude-plugin/plugin.json` has that name.
+Codex runs a plugin hook only
 after you trust it in `/hooks`. Command detection and restoration have not been
 verified there.
 
