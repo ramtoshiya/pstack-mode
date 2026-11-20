@@ -135,7 +135,7 @@ compaction. Without `PSTACK_MODE=1` the hook does nothing.
 ## Workers
 
 Every worker brief starts by telling the worker to read the absolute `mode.md`
-and `HOSTS.md` paths. That is how a native subagent and a separate T3 or Codex
+and `HOSTS.md` paths. That is how a native subagent and a separate worker
 process enter the mode. Neither inherits the parent's conversation, and a
 separate process does not inherit its launch environment or settings. The paths
 resolve because every worker runs on the same machine.
@@ -153,8 +153,8 @@ compaction behavior.
 
 ## Runtime checks
 
-Check a fresh session after `/pstack-mode:mode`, and a native worker and a T3
-worker started from it, for the mode's workflow index in their context. On
+Check a fresh session after `/pstack-mode:mode`, and a native worker and a
+separate worker started from it, for the mode's workflow index in their context. On
 Codex and Hermes, also check that the session resolves the installed plugin
 root. Check
 that a session without the command or `PSTACK_MODE=1` does not load the mode.
