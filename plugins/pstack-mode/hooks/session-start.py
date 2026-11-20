@@ -35,21 +35,16 @@ def is_pstack_root(path):
     return isinstance(manifest, dict) and manifest.get("name") == "pstack-mode"
 
 
-def activated_root(transcript):
-    """Compaction drops the activating text, so find it in the transcript.
+def brief_root(first_message):
+    match = BRIEF.search(first_message)
+    return Path(match[1]) if match and is_pstack_root(Path(match[1])) else None
 
-    A worker starts the mode with a brief whose first message reads a plugin
-    root's mode.md. That root may be a development build or another installed
-    version, so restore the mode from the root the brief named.
-    """
-    for index, text in enumerate(user_texts(transcript)):
-        if COMMAND in text:
-            return ROOT
-        if index == 0:
-            match = BRIEF.search(text)
-            if match and is_pstack_root(Path(match[1])):
-                return Path(match[1])
-    return None
+
+def activated_root(transcript):
+    texts = list(user_texts(transcript))
+    if any(COMMAND in text for text in texts):
+        return ROOT
+    return brief_root(texts[0]) if texts else None
 
 
 def main():
