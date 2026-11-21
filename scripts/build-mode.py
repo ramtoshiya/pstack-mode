@@ -12,7 +12,7 @@ import sys
 ROOT = Path(__file__).resolve().parent.parent
 UPSTREAM = ROOT / "upstream"
 OUTPUT = ROOT / "plugins" / "pstack-mode"
-CURSOR_ORIGINALS = "427e37b2903f8ab2c8c836b79af7c785c90f70d2"
+CURSOR_ORIGINALS = "8260de23663c7850b4397b1a1a9fce58f52dee3c"
 WORKFLOWS = (
     "no-comments", "how", "why", "architect", "arena", "interrogate",
     "in-your-own-words", "show-me-your-work", "unslop", "technical-writing",
