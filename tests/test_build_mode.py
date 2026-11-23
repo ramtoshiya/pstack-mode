@@ -72,10 +72,11 @@ class BuildModeTests(unittest.TestCase):
                     self.assertEqual(src.read_bytes(), dest.read_bytes(), key)
                     self.assertEqual(os.access(src, os.X_OK), os.access(dest, os.X_OK), key)
         self.assertEqual((self.output / "LICENSE").read_bytes(), (self.upstream / "LICENSE").read_bytes())
-        for path in ("plugin.json", ".claude-plugin/plugin.json", ".codex-plugin/plugin.json"):
+        for path in (".claude-plugin/plugin.json", ".codex-plugin/plugin.json"):
             metadata = json.loads((self.output / path).read_text())
             self.assertEqual(metadata["name"], "pstack-mode")
             self.assertNotIn("version", metadata)
+        self.assertFalse((self.output / "plugin.json").exists(), "Codex would read it and skip the hooks")
 
     def test_no_comments_keeps_cursor_policy_instead_of_mirror_exception(self):
         commit = build_mode.CURSOR_ORIGINALS
@@ -188,7 +189,7 @@ class BuildModeTests(unittest.TestCase):
         link.symlink_to(sample)
         self.assertIn("symlinks are not supported", self.run_builder(success=False).stderr)
         link.unlink()
-        for collision in ("plugin.json", "skills/how/SKILL.md", "skills/mode/SKILL.md"):
+        for collision in ("plugin.yaml", "skills/how/SKILL.md", "skills/mode/SKILL.md"):
             with self.subTest(collision=collision):
                 path = mode / collision
                 path.parent.mkdir(parents=True, exist_ok=True)

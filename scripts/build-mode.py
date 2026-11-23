@@ -277,9 +277,6 @@ def expected_package():
     }
     add(".claude-plugin/plugin.json", json_bytes(metadata))
     add(".codex-plugin/plugin.json", json_bytes({**metadata, "skills": "./skills/"}))
-    add("plugin.json", json_bytes({
-        "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json", **metadata,
-    }))
     add("plugin.yaml", "".join(f"{key}: {json.dumps(metadata[key])}\n" for key in ("name", "description")).encode())
     mode = tree(ROOT / "mode")
     add(MODE_SKILL, mode_skill(mode["mode.md"][0]))

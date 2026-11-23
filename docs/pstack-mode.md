@@ -95,8 +95,10 @@ hermes plugins enable pstack-mode
 ```
 
 `plugin.yaml` and `__init__.py` make it a native Hermes plugin, so its skills
-use the `pstack-mode:` namespace. Without them Hermes would load `plugin.json`
-as a portable package under a generated namespace.
+use the `pstack-mode:` namespace. The package has no root `plugin.json`. Codex
+0.171.0 reads a root `plugin.json` that declares the agent-plugins schema in
+place of `.codex-plugin/plugin.json` and then loads no hooks, so the
+SessionStart hook would never run there.
 
 ## Activate
 
