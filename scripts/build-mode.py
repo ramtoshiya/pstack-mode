@@ -74,6 +74,7 @@ After compaction, retain the plugin root and reload `mode.md` before continuing 
 """
 MAX_MODE_SKILL_BYTES = 8000
 SKILL_FRONTMATTER = ("name", "description", "disable-model-invocation")
+YAML_INDICATORS = "'[{>|&*!%@`#"
 
 
 def mode_skill(mode_text):
@@ -87,7 +88,6 @@ def mode_skill(mode_text):
 
 
 def check_skill_frontmatter(path, data):
-    """Accept only keys every host reads, written as one-line values that YAML parsers agree on."""
     lines = data.decode("utf-8").split("\n")
     if lines[0] != "---" or "---" not in lines[1:]:
         raise ValueError(f"{path}: frontmatter must open and close with a --- line")
@@ -105,7 +105,7 @@ def check_skill_frontmatter(path, data):
                 value = json.loads(value)
             except ValueError:
                 raise ValueError(f"{path}: {key} must be one double-quoted string") from None
-        elif not value or value[0] in "'[{>|&*!%@`#" or ": " in value or " #" in value:
+        elif not value or value[0] in YAML_INDICATORS or ": " in value or " #" in value:
             raise ValueError(f"{path}: put the {key} value in double quotes")
         fields[key] = value
     skill = path.split("/")[1]
@@ -123,7 +123,6 @@ def json_bytes(value):
 
 
 def tree(directory):
-    """Map each regular file under directory to its bytes and executable bit."""
     if directory.is_symlink() or not directory.is_dir():
         raise ValueError(f"not a regular directory: {directory.relative_to(ROOT)}")
     files = {}
@@ -137,7 +136,6 @@ def tree(directory):
 
 
 def cursor_original(path):
-    """Read Cursor's file from the mirror commit that copies cursor/plugins/pstack exactly."""
     result = subprocess.run(
         ["git", "-C", str(ROOT), "cat-file", "blob", f"{CURSOR_ORIGINALS}:{path}"],
         capture_output=True, check=False,
@@ -175,7 +173,6 @@ def replace_line(text, start, replacement):
 
 
 def delete_line(text, start):
-    """Drop a frontmatter key that not every host reads, such as Claude Code's `paths`."""
     lines = text.splitlines(keepends=True)
     matches = [index for index, line in enumerate(lines) if line.startswith(start)]
     if len(matches) != 1:

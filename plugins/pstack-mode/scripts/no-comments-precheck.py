@@ -34,6 +34,11 @@ class Hit(NamedTuple):
     detail: str
 
 
+class Scope(NamedTuple):
+    description: str
+    files: List[Tuple[str, Callable[[], Optional[bytes]]]]
+
+
 class Verdict(NamedTuple):
     path: str
     kind: str
@@ -154,26 +159,25 @@ def line_of(text, offset):
     return text.count("\n", 0, offset) + 1
 
 
-def close_quote(text, start, close, quote, markers):
-    """Return the offset after the closing delimiter of a string that opens before start.
-
-    A string that spans lines and contains a comment marker may be a misread
-    quote that hides a real comment, so it leaves the file unclassified.
-    """
+def close_quote(text, start, close, quote):
     index = start
     while index < len(text):
         if quote.escape and text[index] == "\\":
             index += 2
         elif text.startswith(close, index):
-            body = text[start:index]
-            if "\n" in body and any(marker in body for marker in markers):
-                raise Unclassified(f"multi-line string at line {line_of(text, start)} contains a comment marker")
             return index + len(close)
         elif text[index] == "\n" and not quote.multiline:
             break
         else:
             index += 1
     raise Unclassified(f"string at line {line_of(text, start)} does not close where expected")
+
+
+def refuse_multiline_string_with_marker(text, start, end, markers):
+    body = text[start:end]
+    if "\n" in body and any(marker in body for marker in markers):
+        raise Unclassified(f"multi-line string at line {line_of(text, start)} contains a comment marker, "
+                           "so a misread quote may hide a comment")
 
 
 def skip_regex_literal(text, start):
@@ -195,7 +199,6 @@ def skip_regex_literal(text, start):
 
 
 def scan_syntax(syntax, text):
-    """Lex past strings, character literals, and regular expressions, and stop at the first comment."""
     quotes = [(re.compile(quote.open), quote) for quote in syntax.quotes]
     char_literal = re.compile(syntax.char_literal) if syntax.char_literal else None
     markers = syntax.line + syntax.block
@@ -219,7 +222,9 @@ def scan_syntax(syntax, text):
             for pattern, quote in quotes:
                 match = pattern.match(text, index)
                 if match:
-                    index, previous = close_quote(text, match.end(), match.expand(quote.close), quote, markers), "x"
+                    end = close_quote(text, match.end(), match.expand(quote.close), quote)
+                    refuse_multiline_string_with_marker(text, match.end(), end, markers)
+                    index, previous = end, "x"
                     break
             else:
                 match = None
@@ -270,7 +275,6 @@ def scan_unlabeled(text):
 
 
 def scan_embedded(language, text, first_line):
-    """Scan code embedded in a document and report lines in the document's numbering."""
     try:
         hit = SCANNERS[language](text) if language else scan_unlabeled(text)
     except Unclassified as error:
@@ -399,8 +403,7 @@ def read_worktree(top, name):
     return path.read_bytes()
 
 
-def resolve_scope(args) -> Tuple[str, List[Tuple[str, Callable[[], Optional[bytes]]]]]:
-    """Return the scope description and a content reader for each scoped file, as no-comments defines them."""
+def resolve_scope(args) -> Scope:
     if not (args.staged or args.unstaged or args.base) and args.paths:
         files = []
         for given in args.paths:
@@ -412,7 +415,7 @@ def resolve_scope(args) -> Tuple[str, List[Tuple[str, Callable[[], Optional[byte
                 files.append((given, read_worktree, "."))
             else:
                 raise ScopeError(f"{given} does not exist")
-        return "the given files", [(name, lambda n=name, r=reader, t=top: r(t, n)) for name, reader, top in files]
+        return Scope("the given files", [(name, lambda n=name, r=reader, t=top: r(t, n)) for name, reader, top in files])
     top = git("rev-parse", "--show-toplevel").decode().strip()
     pathspec = ["--", *args.paths] if args.paths else []
     untracked = ["ls-files", "-z", "-o", "--exclude-standard", "--full-name", *pathspec]
@@ -420,7 +423,7 @@ def resolve_scope(args) -> Tuple[str, List[Tuple[str, Callable[[], Optional[byte
     if args.staged:
         description = "staged changes"
         changed = names(git(*diff, "--cached", *pathspec))
-        return description, [(name, lambda n=name: git("cat-file", "blob", f":{n}")) for name in changed]
+        return Scope(description, [(name, lambda n=name: git("cat-file", "blob", f":{n}")) for name in changed])
     if args.unstaged:
         description = "unstaged changes and untracked files"
         changed = names(git(*diff, *pathspec)) + names(git(*untracked))
@@ -429,7 +432,7 @@ def resolve_scope(args) -> Tuple[str, List[Tuple[str, Callable[[], Optional[byte
         merge_base = git("merge-base", base, "HEAD").decode().strip()
         description = f"changes from {base} (merge base {merge_base[:12]}), with the working tree"
         changed = names(git(*diff, merge_base, *pathspec)) + names(git(*untracked))
-    return description, [(name, lambda n=name: read_worktree(top, n)) for name in sorted(set(changed))]
+    return Scope(description, [(name, lambda n=name: read_worktree(top, n)) for name in sorted(set(changed))])
 
 
 def main():
@@ -441,17 +444,17 @@ def main():
     parser.add_argument("paths", nargs="*", help="files to scan, or with a diff option, paths that limit the diff")
     args = parser.parse_args()
     try:
-        description, scope = resolve_scope(args)
+        scope = resolve_scope(args)
     except ScopeError as error:
         print(f"no-comments pre-check: cannot resolve the scope: {error}\nResult: run Comment Sicko.")
         return 2
     verdicts = []
-    for name, read in scope:
+    for name, read in scope.files:
         try:
             verdicts.append(classify(name, read()))
         except (OSError, ScopeError, Unclassified) as error:
             verdicts.append(Verdict(name, UNCLASSIFIED, None, str(error)))
-    print(f"no-comments pre-check: {len(verdicts)} scoped files from {description}")
+    print(f"no-comments pre-check: {len(verdicts)} scoped files from {scope.description}")
     for verdict in verdicts:
         where = f"{verdict.path}:{verdict.line}" if verdict.line else verdict.path
         print(f"{verdict.kind:<13} {where}  ({verdict.detail})")
