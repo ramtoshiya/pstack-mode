@@ -16,7 +16,7 @@ The repository's hooks run the check and the tests before each commit and merge.
 git config core.hooksPath .githooks
 ```
 
-Use `--check` to validate the skills, not Codex's skill-creator `quick_validate.py`. That validator allows only `name`, `description`, `license`, `allowed-tools`, and `metadata`, so it rejects every skill here for `disable-model-invocation`. Claude Code reads that key to keep the skills from loading on their own. Codex and Hermes ignore it and load the skills.
+Use `--check` to validate the skills, not Codex's skill-creator `quick_validate.py`. That validator allows only `name`, `description`, `license`, `allowed-tools`, and `metadata`, so it rejects every skill here for `disable-model-invocation`. Claude Code reads that key to keep the skills from loading on their own. Codex and Hermes ignore it and load the skills. The generator excludes upstream `agents/openai.yaml` files so Codex can select the skills automatically.
 
 ## Sync with upstream
 

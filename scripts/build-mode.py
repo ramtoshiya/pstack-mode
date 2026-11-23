@@ -260,6 +260,8 @@ def expected_package():
     sources = {}
     for skill in SKILLS:
         for relative, entry in tree(UPSTREAM / "skills" / skill).items():
+            if relative == "agents/openai.yaml":
+                continue
             sources[f"skills/{skill}/{relative}"] = entry
     prompt = cursor_original("agents/comment-sicko.md")
     sources["skills/no-comments/SKILL.md"] = (cursor_original("skills/no-comments/SKILL.md"), False)

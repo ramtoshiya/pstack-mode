@@ -67,6 +67,9 @@ class BuildModeTests(unittest.TestCase):
             for src in (path for path in source.rglob("*") if path.is_file()):
                 key = src.relative_to(self.upstream).as_posix()
                 dest = self.output / key
+                if src.relative_to(source).as_posix() == "agents/openai.yaml":
+                    self.assertFalse(dest.exists(), key)
+                    continue
                 self.assertTrue(dest.is_file(), key)
                 if key not in ADAPTED:
                     self.assertEqual(src.read_bytes(), dest.read_bytes(), key)
