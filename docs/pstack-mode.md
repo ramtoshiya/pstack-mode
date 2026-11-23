@@ -53,8 +53,17 @@ mirror's outside-constraint review exception is not included. Ambiguous keeps ar
 deleted, a second rejected report fails no-comments, and MUST KILL retains its
 original meaning. The workflow can redesign code to remove the need for comments.
 
+This package adds a pre-check that pstack does not have. Before no-comments starts
+Comment Sicko, `scripts/no-comments-precheck.py` scans the whole content of every
+file in the review scope. It looks for comments, docstrings, lint or type
+suppressions, and disabled code such as `#if 0`. When it finds none, the workflow
+reports the script's output and does not start the reviewer. It knows the comment
+syntax of common languages and skips past strings, so `"https://…"` is not a
+comment. A file type it does not know, text it cannot lex with confidence, or a
+scope it cannot resolve starts the reviewer as before.
+
 [Build instructions](build-mode.md) explain regeneration and syncing. Edit `mode/`
-for the controller and hook, and the generator for portable workflow substitutions.
+for the controller, hook, and pre-check, and the generator for portable workflow substitutions.
 Do not edit generated files directly.
 
 ## Install

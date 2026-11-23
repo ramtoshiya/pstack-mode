@@ -10,7 +10,7 @@ flowchart LR
   M -- "git merge -Xsubtree=upstream" --> U["upstream/<br/>unchanged mirror"]
   M -- "CURSOR_ORIGINALS commit<br/>no-comments policy" --> B["scripts/build-mode.py"]
   U --> B
-  O["mode/<br/>controller and hook"] --> B
+  O["mode/<br/>controller, hook,<br/>no-comments pre-check"] --> B
   B -- "generates" --> P["plugins/pstack-mode/"]
   P -- "pinned commit" --> L["ramtoshiya/skills<br/>marketplace"]
 ```

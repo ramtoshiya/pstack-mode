@@ -211,7 +211,14 @@ def no_comments(text):
         '1. Spawn `Task` with `subagent_type: "comment-sicko"`. Pass the scope. '
         "Pick each subagent's reasoning level for the job, "
         "per the Subagents section of the **poteto-mode** skill. Do not restate its rules.",
-        "1. " + ROUTING + " "
+        "1. In the reviewed repository, run `python3` on "
+        "[`scripts/no-comments-precheck.py`](../../scripts/no-comments-precheck.py) at the plugin root. Pass the caller's files as "
+        "arguments, `--staged` or `--unstaged` for a staged or unstaged diff, or `--base <branch>` "
+        "for a branch diff. A diff option also takes paths that limit it. With no arguments it "
+        "scans the diff against `main`. It scans the whole content of every scoped file. If it "
+        "exits 0, the scope has no comments, docstrings, or suppressions: do not spawn Comment "
+        "Sicko, skip the remaining steps, and report its output as the result. On any other "
+        "exit, continue. " + ROUTING + " "
         'In Claude Code, spawn `Agent` with `subagent_type: "pstack-mode:comment-sicko"`. '
         'In Cursor with the pstack plugin, spawn `Task` with `subagent_type: "comment-sicko"`. '
         "Pass the scope. Do not restate its rules. If Comment Sicko is not registered, "
