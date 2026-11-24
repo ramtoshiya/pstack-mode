@@ -123,12 +123,24 @@ has no such setting and lists the mode with its other skills, so its model can
 load the mode without the command. Hermes does not run the SessionStart hook,
 so there `PSTACK_MODE=1` does not start it. The entry skill asks the agent to
 retain the root and reload the mode after compaction when the host has not
-restored it. After compaction in Claude Code, the SessionStart hook restores
-the mode when the transcript shows the command, or when the session's first
-message is a worker brief that reads `mode.md` from a pstack-mode plugin root.
-For a brief it injects that root's `mode.md`, so a brief that names a
-development build or another installed version gets the file it named. The
-root counts as pstack-mode when its `.claude-plugin/plugin.json` has that name.
+restored it. In Claude Code the activation hook (`hooks/activation.py`) keeps the mode on for
+the rest of a session that activated it. A session counts as activated when its
+transcript shows the command, when its first message is a worker brief that reads
+`mode.md` from a pstack-mode plugin root, or when a user message is a bb relay
+header (`[bb message from thread:<id>]` and a blank line) followed by
+`/pstack-mode:mode`. Claude Code does not run a relayed command, so on that
+turn the UserPromptSubmit hook injects `mode.md` itself. On every later user turn
+it injects a short turn check that points at the principle index in `mode.md`.
+The turn that carries a typed command gets no check, because the transcript does
+not yet contain the command, and the command itself loads the mode. There is no
+deactivation, and sessions that never activated get nothing. After compaction the
+SessionStart hook restores `mode.md` for an activated session, and the turn
+check on the next prompt adds no second copy. For a brief it injects that root's
+`mode.md`, so a brief that names a development build or another installed version
+gets the file it named. The root counts as pstack-mode when its
+`.claude-plugin/plugin.json` has that name. Each prompt scans the transcript
+for the command and stops at the first match. A 130 MB transcript with no match
+takes about 0.2 to 0.5 seconds, plus about 0.2 seconds for `uv` to start.
 Codex runs a plugin hook only
 after you trust it in `/hooks`. Command detection and restoration have not been
 verified there.
@@ -141,7 +153,8 @@ To start the mode automatically in one repository, add this to its
 ```
 
 The SessionStart hook then loads the mode on startup, resume, clear, and
-compaction. Without `PSTACK_MODE=1` the hook does nothing.
+compaction, and every prompt gets the turn check. Without `PSTACK_MODE=1` the
+hook stays silent until a session activates the mode.
 
 ## Workers
 
