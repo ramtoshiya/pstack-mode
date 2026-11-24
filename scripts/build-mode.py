@@ -263,6 +263,18 @@ TRANSFORMS = {
     "skills/principle-type-system-discipline/SKILL.md": lambda text: replace_once(text,
         "see the **typescript-best-practices** skill.",
         "see the [typescript-best-practices](../typescript-best-practices/SKILL.md) skill."),
+    "skills/correct/SKILL.md": lambda text: replace_once(text,
+        "Last, keep a table in the agent instruction file that pairs each rule with what enforces it. "
+        "When the operator corrects you, fix the mistake and add the rule. "
+        "If the rule was already there and nothing enforces it, that's a repeat, "
+        "so fix it at the highest level in the same change. Drop a rule once its mistake can't happen.",
+        "Last, keep a table in the agent instruction file of the rules that only judgment enforces. "
+        "A rule that architecture, a type, a lint, or a test enforces gets no row, "
+        "because its error already tells the agent the fix. "
+        "When the operator corrects you, fix the mistake at the highest level that works, "
+        "and add a row only when that level is docs. "
+        "If a row's mistake happens again, that's a repeat, so fix it at a higher level in the same change "
+        "and drop the row. Drop a row once its mistake can't happen."),
     "skills/typescript-best-practices/SKILL.md": lambda text: delete_line(text, "paths: "),
     "skills/maintain-verification-skill/SKILL.md": lambda text: replace_once(text,
         "One read-only subagent per feature file, launched concurrently.",
