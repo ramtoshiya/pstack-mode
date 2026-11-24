@@ -181,6 +181,26 @@ def delete_line(text, start):
     return "".join(lines)
 
 
+def attack_the_premise(text):
+    text = replace_once(text,
+        "Apply when two or more fixes that share one premise have failed the same gate.",
+        "Apply when two or more fixes that share one premise have failed the same gate, "
+        "a sweep of settings stops short of the target, or you explain the remaining "
+        "failures as a limit of the tool.")
+    text = replace_once(text,
+        "suspect the premise, not the fixes.\n",
+        "suspect the premise, not the fixes. A sweep of settings that stops short of the "
+        "target counts, because each setting is a fix that failed. So does a remaining "
+        "failure that you explain as a limit of the tool, because the limit usually holds "
+        "only on the path the fixes share.\n")
+    return replace_once(text,
+        "Look at how the failures are distributed, not only at how large they are.\n",
+        "Look at how the failures are distributed, not only at how large they are.\n"
+        "- If you judged results against another source of the same value, such as a "
+        "second screen, file, or API that you used as ground truth, test that source as "
+        "the answer first. You already trust it more than the path you are fixing.\n")
+
+
 def arena(text):
     text = replace_line(text, "3. Pick the runners",
         "3. Pick the runners. " + ROUTING + " Use two runners by default, or one "
@@ -229,6 +249,7 @@ def no_comments(text):
 
 TRANSFORMS = {
     "skills/arena/SKILL.md": arena,
+    "skills/principle-attack-the-premise/SKILL.md": attack_the_premise,
     "skills/no-comments/SKILL.md": no_comments,
     "skills/interrogate/SKILL.md": lambda text: replace_once(text,
         "Read the `interrogate reviewers` line in place of `arena runners`.",

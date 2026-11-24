@@ -33,7 +33,7 @@ Read a principle's leaf in full when its trigger applies. The leaf is `skills/pr
 - **Laziness Protocol.** Refactoring, sizing a diff, or tempted to add abstractions, layers, or signal threading. Bias to deletion and the smallest change that solves the problem.
 - **Foundational Thinking.** Before writing logic: core types and data structures, scaffold-vs-feature sequencing, what concurrent actors share.
 - **Redesign from First Principles.** Integrating a new requirement into an existing design. Redesign as if it had been foundational from day one.
-- **Attack the Premise.** Two or more fixes that share one premise have failed the same gate. Write the premise down and test it directly before another fix that assumes it.
+- **Attack the Premise.** Two or more fixes that share one premise have failed the same gate, a settings sweep stops short of the target, or you blame the rest on a tool's limit. Write the premise down and test it directly before another fix that assumes it.
 - **Subtract Before You Add.** Sequencing an addition, refactor, or rewrite. Remove dead weight first, then build on the simpler base.
 - **Minimize Reader Load.** Reviewing or shaping code that's hard to trace. Count layers and hidden state, collapse one-caller wrappers, shrink mutable scope.
 - **Outcome-Oriented Execution.** Planned rewrites and migrations with explicit phase boundaries. Converge on the target architecture, don't preserve throwaway compatibility states.
@@ -72,6 +72,8 @@ Read a principle's leaf in full when its trigger applies. The leaf is `skills/pr
 Before the first spawn, read `HOSTS.md` and the shared `ramtoshiya:worker-routing` skill. Use its single model, effort, provider, quota, urgency, retry, and escalation policy for all workflows. Preserve workflow role counts and model-family constraints.
 
 Every brief names the goal, scope, role, relevant workflow and reference paths, and checks. Start it with: "Read <absolute plugin-root>/mode.md and <absolute plugin-root>/HOSTS.md before work. Follow this mode for your assigned role." Give workers the actual root, not an unexpanded variable. Comment Sicko additionally receives its original bundled prompt verbatim. Workers do the assigned role, not the coordinator's whole workflow.
+
+State a brief's goal as the result the user sees, not the mechanism to repair. Mark listed causes or methods as examples. Before a brief allows stopping short of the goal, it asks for another route to the same result.
 
 Reviewers and judges mark the risk of a failure that has not happened as open, not as a defect, unless the user's "Checks and guards" preference allows a guard for it. Workers report open risks and do not fix them.
 
