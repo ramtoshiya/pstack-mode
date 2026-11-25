@@ -21,7 +21,8 @@ WORKFLOWS = {
     "correct", "statechart", "tdd", "blast-radius", "typescript-best-practices",
     "create-verification-skill", "maintain-verification-skill",
     "create-formal-verification-skill", "maintain-formal-verification-skill",
-    "reframe",
+    "reframe", "teach", "sharpen", "bro", "ketchup", "recall", "reflect",
+    "figure-it-out", "swarm", "benchmark-checklist",
 }
 PRINCIPLES = {path.name for path in (REPO / "upstream/skills").glob("principle-*")}
 ADAPTED = set(build_mode.TRANSFORMS) | {
@@ -105,7 +106,7 @@ class BuildModeTests(unittest.TestCase):
 
     def test_package_routes_workers_through_shared_policy(self):
         for name in ("arena", "no-comments", "interrogate", "show-me-your-work",
-                     "maintain-verification-skill"):
+                     "maintain-verification-skill", "recall", "figure-it-out", "swarm"):
             with self.subTest(skill=name):
                 text = (self.output / "skills" / name / "SKILL.md").read_text()
                 self.assertIn("ramtoshiya:worker-routing", text)
@@ -128,9 +129,6 @@ class BuildModeTests(unittest.TestCase):
                 if relative and not (path.parent / relative).exists():
                     missing.append(f"{path.relative_to(self.output)}: {target}")
         self.assertEqual(missing, [])
-        ref = self.output / "skills/principle-explain-the-number/references/benchmark-checklist.md"
-        self.assertEqual(ref.read_bytes(), (self.upstream / "skills/benchmark-checklist/SKILL.md").read_bytes())
-        self.assertFalse((self.output / "skills/benchmark-checklist").exists())
 
     def test_build_fails_when_a_selected_skill_or_substitution_anchor_disappears(self):
         with unittest.mock.patch.multiple(build_mode, ROOT=self.repo, UPSTREAM=self.upstream), \

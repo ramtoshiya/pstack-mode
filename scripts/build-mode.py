@@ -19,7 +19,8 @@ WORKFLOWS = (
     "correct", "statechart", "tdd", "blast-radius", "typescript-best-practices",
     "create-verification-skill", "maintain-verification-skill",
     "create-formal-verification-skill", "maintain-formal-verification-skill",
-    "reframe",
+    "reframe", "teach", "sharpen", "bro", "ketchup", "recall", "reflect",
+    "figure-it-out", "swarm", "benchmark-checklist",
 )
 PRINCIPLES = (
     "principle-attack-the-premise",
@@ -54,6 +55,8 @@ ROUTING = (
     "at the plugin root for native tool names "
     "and worker activation."
 )
+SUBAGENT_LEVEL = ("Pick each subagent's reasoning level for the job, "
+                  "per the Subagents section of the **poteto-mode** skill.")
 
 
 MODE_SKILL = "skills/mode/SKILL.md"
@@ -224,6 +227,43 @@ def arena(text):
         "your reading in Phase D. Don't spawn it while candidates are still writing.")
 
 
+def recall(text):
+    text = replace_once(text,
+        "One specific prior chat to resume is the `session-pickup` playbook, not this. "
+        "Turning habits into a durable skill is `automate-me`. "
+        "A human-readable summary of your work is a different task.",
+        "Resuming one specific prior chat, turning habits into a durable skill, "
+        "and a human-readable summary of your work are different tasks.")
+    return replace_once(text, SUBAGENT_LEVEL, ROUTING)
+
+
+def figure_it_out(text):
+    text = replace_once(text,
+        "read the Principles section of the **poteto-mode** skill.",
+        "read the Principles section of [`mode.md`](../../mode.md) at the plugin root.")
+    return replace_once(text, SUBAGENT_LEVEL, ROUTING)
+
+
+def swarm(text):
+    text = replace_line(text, "3. Pick the worker model",
+        "3. Pick the worker model. " + ROUTING + " For a model race, name each arm's model up front.")
+    text = replace_paragraph(text, "Spawn all N workers in one message",
+        "Spawn all N workers in parallel with the host's delegation tools, on the step 3 models. "
+        "Give each worker that writes its own worktree or output path.")
+    text = replace_paragraph(text, "When a worker must start from a non-default pushed branch",
+        "When a worker must start from a branch other than the default, name that branch in its brief.")
+    return replace_paragraph(text, "**Other harnesses.**",
+        "If neither a native agent tool nor the thread tool that `HOSTS.md` names can start "
+        "workers, run them yourself one after another and say that they were not independent.")
+
+
+def benchmark_checklist(text):
+    section = "\n## Other perf material\n"
+    if text.count(section) != 1 or "\n## " in text[text.index(section) + len(section):]:
+        raise ValueError("expected one last section ## Other perf material")
+    return text[:text.index(section)]
+
+
 def no_comments(text):
     return replace_once(text,
         '1. Spawn `Task` with `subagent_type: "comment-sicko"`. Pass the scope. '
@@ -255,12 +295,14 @@ TRANSFORMS = {
     "skills/interrogate/SKILL.md": lambda text: replace_once(text,
         "Read the `interrogate reviewers` line in place of `arena runners`.",
         ROUTING + " Select adversaries using that policy."),
-    "skills/show-me-your-work/SKILL.md": lambda text: replace_once(text,
-        "Pick each subagent's reasoning level for the job, "
-        "per the Subagents section of the **poteto-mode** skill.", ROUTING),
-    "skills/principle-explain-the-number/SKILL.md": lambda text: replace_once(text,
-        "run the [benchmark-checklist](../benchmark-checklist/SKILL.md) skill",
-        "run the [benchmark checklist](references/benchmark-checklist.md)"),
+    "skills/show-me-your-work/SKILL.md": lambda text: replace_once(text, SUBAGENT_LEVEL, ROUTING),
+    "skills/recall/SKILL.md": recall,
+    "skills/reflect/SKILL.md": lambda text: replace_once(text,
+        "In other harnesses, see **Harness** in the **poteto-mode** skill.",
+        "In other harnesses, use the transcript locations in the [recall](../recall/SKILL.md) skill."),
+    "skills/figure-it-out/SKILL.md": figure_it_out,
+    "skills/swarm/SKILL.md": swarm,
+    "skills/benchmark-checklist/SKILL.md": benchmark_checklist,
     "skills/principle-type-system-discipline/SKILL.md": lambda text: replace_once(text,
         "see the **typescript-best-practices** skill.",
         "see the [typescript-best-practices](../typescript-best-practices/SKILL.md) skill."),
@@ -305,8 +347,6 @@ def expected_package():
             data = TRANSFORMS[path](data.decode("utf-8")).encode("utf-8")
         add(path, data, executable)
     add("agents/comment-sicko.md", prompt)
-    add("skills/principle-explain-the-number/references/benchmark-checklist.md",
-        (UPSTREAM / "skills/benchmark-checklist/SKILL.md").read_bytes())
     add("LICENSE", (UPSTREAM / "LICENSE").read_bytes())
     metadata = {
         "name": "pstack-mode",

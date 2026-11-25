@@ -12,11 +12,23 @@ The package selects `no-comments`, `how`, `why`, `architect`, `arena`,
 skills. `statechart` runs TypeScript with Node 22.18 or later, Bun, or Deno, and
 its first run installs TLC and Java with mise. The mode loads the complete
 principle applicability index and reads individual bodies when relevant.
-`reframe` teaches the expert words for what you are building and rewrites your
-description with them. The mode has no trigger line for it, so run it yourself
-with `/pstack-mode:reframe`.
-References, helpers, Comment Sicko, and the MIT license are included. The
-benchmark checklist is a supporting reference, not another registered skill.
+References, helpers, Comment Sicko, and the MIT license are included.
+
+The mode has no trigger line for these skills, so run each one yourself, for
+example `/pstack-mode:teach` in Claude Code or `$pstack-mode:teach` in Codex:
+
+| Skill | What it does |
+| --- | --- |
+| `teach` | Explains a change or subsystem plainly, using `how` and `why` |
+| `bro` | Restates the last message in plain words |
+| `ketchup` | Catches you up on what changed in the chat and lists what waits on you |
+| `sharpen` | Rewrites a prompt to make the task deeper, not bigger |
+| `reframe` | Teaches the expert words for what you are building and rewrites your description with them |
+| `recall` | Rebuilds your recent working context from chat transcripts and the shared record |
+| `reflect` | Proposes skill edits from what the current transcript taught, and waits for approval |
+| `figure-it-out` | Designs and runs an auditable workflow for a large task that no narrower skill fits |
+| `swarm` | Fans out parallel workers and returns one report |
+| `benchmark-checklist` | Vets a performance measurement before you report or act on it. `principle-explain-the-number` links to it |
 
 The verification layer turns checks into project artifacts instead of prose:
 
@@ -38,13 +50,15 @@ surface its user touches. The playbooks are not copied because they depend on
 the poteto-mode controller, its subagent section, model IDs, and its PR flow.
 
 It does not include the poteto-mode controller, poteto-agent wrapper,
-setup-pstack model configuration, swarm, playbooks, automatic shipping,
-PR babysitting, or overnight autonomy machinery. `figure-it-out` is left out
-because it runs from the poteto-mode controller, and its rule to build the
-verification harness before features is already in
-`principle-foundational-thinking`. `reflect` is left out because it reads
-session transcripts and edits skills, and `correct` already turns a repeated
-mistake into a check.
+setup-pstack model configuration, playbooks, automatic shipping, PR
+babysitting, or overnight autonomy machinery. Upstream text that points at
+those parts is rewritten for this package. `recall`, `figure-it-out`, and
+`swarm` take worker models from `ramtoshiya:worker-routing` instead of the
+poteto-mode subagent table or the setup-pstack settings file. `figure-it-out`
+reads the principles from `mode.md`, and `reflect` finds transcripts through
+`recall`'s list of locations. `swarm` uses the host's delegation tools instead
+of Cursor cloud agents. `benchmark-checklist` drops its notes on the Perf issue
+and Hillclimb playbooks.
 
 ## Source and policy
 
