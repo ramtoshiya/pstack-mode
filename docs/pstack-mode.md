@@ -12,6 +12,9 @@ The package selects `no-comments`, `how`, `why`, `architect`, `arena`,
 skills. `statechart` runs TypeScript with Node 22.18 or later, Bun, or Deno, and
 its first run installs TLC and Java with mise. The mode loads the complete
 principle applicability index and reads individual bodies when relevant.
+`reframe` teaches the expert words for what you are building and rewrites your
+description with them. The mode has no trigger line for it, so run it yourself
+with `/pstack-mode:reframe`.
 References, helpers, Comment Sicko, and the MIT license are included. The
 benchmark checklist is a supporting reference, not another registered skill.
 

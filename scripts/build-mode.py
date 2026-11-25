@@ -19,6 +19,7 @@ WORKFLOWS = (
     "correct", "statechart", "tdd", "blast-radius", "typescript-best-practices",
     "create-verification-skill", "maintain-verification-skill",
     "create-formal-verification-skill", "maintain-formal-verification-skill",
+    "reframe",
 )
 PRINCIPLES = (
     "principle-attack-the-premise",

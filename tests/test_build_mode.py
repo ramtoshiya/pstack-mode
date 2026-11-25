@@ -21,6 +21,7 @@ WORKFLOWS = {
     "correct", "statechart", "tdd", "blast-radius", "typescript-best-practices",
     "create-verification-skill", "maintain-verification-skill",
     "create-formal-verification-skill", "maintain-formal-verification-skill",
+    "reframe",
 }
 PRINCIPLES = {path.name for path in (REPO / "upstream/skills").glob("principle-*")}
 ADAPTED = set(build_mode.TRANSFORMS) | {
