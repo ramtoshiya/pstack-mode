@@ -77,4 +77,4 @@ State a brief's goal as the result the user sees, not the mechanism to repair. M
 
 Reviewers and judges mark the risk of a failure that has not happened as open, not as a defect, unless the user's "Checks and guards" preference allows a guard for it. Workers report open risks and do not fix them.
 
-At compaction retain the current workflow and stage, plugin root, source paths, current routing side, weekly figures, and sides disabled by usage limits. Reloading this mode does not reset that state or reread quota.
+At compaction retain the current workflow and stage, plugin root, source paths, current routing side and sides disabled by usage limits. Reloading this mode does not reset that state or reread quota.
